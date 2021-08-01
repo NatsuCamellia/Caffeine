@@ -1,3 +1,4 @@
+import java.time.format.DateTimeFormatter;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
@@ -11,25 +12,26 @@ public class Command extends ListenerAdapter {
 
         String[] message = event.getMessage().getContentRaw().split(" ");
         String command = message[0];
-        String mention = event.getAuthor().getAsMention();
-        User author = event.getAuthor();
-        String id = event.getAuthor().getId();
 
         if (command.equalsIgnoreCase("getMention")) {
+
+            String mention = event.getAuthor().getAsMention();
 
             event.getChannel().sendMessage(mention).queue();
 
         } else if (command.equalsIgnoreCase("getId")) {
 
-            sendPrivateMessage(author, id);
+            sendPrivateMessage(event.getAuthor(), event.getAuthor().getId());
 
-        } else if (command.equalsIgnoreCase("ping")) {
+        } else if (command.equalsIgnoreCase("info")) {
 
-            long time = System.currentTimeMillis();
-            
-            event.getChannel().sendMessage("Pinging...").queue(responce -> {responce.editMessageFormat("%d ms", System.currentTimeMillis() - time).queue();});
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
+
+            String created = event.getAuthor().getTimeCreated().format(formatter);
+
+            event.getChannel().sendMessage(created).queue();
+
         }
-
     }
 
     @Override
@@ -38,10 +40,9 @@ public class Command extends ListenerAdapter {
 
             long time = System.currentTimeMillis();
 
-            event.reply("Pong!").setEphemeral(true) // reply or acknowledge
-             .flatMap(v ->
-                 event.getHook().editOriginalFormat("Pong: %d ms", System.currentTimeMillis() - time) // then edit original
-             ).queue(); // Queue both reply and edit
+            event.reply("Pong!").setEphemeral(true)
+                    .flatMap(v -> event.getHook().editOriginalFormat("Pong: %d ms", System.currentTimeMillis() - time))
+                    .queue();
 
         }
     }
@@ -51,11 +52,8 @@ public class Command extends ListenerAdapter {
         if (event.isFromType(ChannelType.PRIVATE)) {
             System.out.printf("[PM] %s: %s\n", event.getAuthor().getName(), event.getMessage().getContentDisplay());
         } else {
-            System.out.printf("[%s] [%s] %s: %s\n",
-                            event.getGuild().getName(),
-                            event.getTextChannel().getName(),
-                            event.getMember().getEffectiveName(),
-                            event.getMessage().getContentDisplay());
+            System.out.printf("[%s] [%s] %s: %s\n", event.getGuild().getName(), event.getTextChannel().getName(),
+                    event.getMember().getEffectiveName(), event.getMessage().getContentDisplay());
         }
     }
 
