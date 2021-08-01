@@ -31,6 +31,13 @@ public class Command extends ListenerAdapter {
 
             event.getChannel().sendMessage(created).queue();
 
+        } else if (command.equalsIgnoreCase("join")) {
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
+
+            String joined = event.getMember().getTimeJoined().format(formatter);
+
+            event.getChannel().sendMessage(joined).queue();
         }
     }
 
