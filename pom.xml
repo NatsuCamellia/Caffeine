@@ -48,18 +48,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <plugin>
-                <groupId>com.heroku.sdk</groupId>
-                <artifactId>heroku-maven-plugin</artifactId>
-                <configuration>
-                    <source>16</source>
-                    <target>16</target>
-                    <processTypes>
-                        <web>java $JAVA_OPTS -cp target/classes:target/dependency/* Main</web>
-                    </processTypes>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
@@ -84,36 +72,4 @@
             <url>https://m2.dv8tion.net/releases</url>
         </repository>
     </repositories>
-
-    <profiles>
-        <profile>
-          <id>jdacaffeine</id>
-          <build>
-            <plugins>
-              <plugin>
-                <groupId>com.heroku.sdk</groupId>
-                <artifactId>heroku-maven-plugin</artifactId>
-                <configuration>
-                  <appName>myapp-test</appName>
-                </configuration>
-              </plugin>
-            </plugins>
-          </build>
-        </profile>
-        <profile>
-          <id>prod</id>
-          <build>
-            <plugins>
-              <plugin>
-                <groupId>com.heroku.sdk</groupId>
-                <artifactId>heroku-maven-plugin</artifactId>
-                <configuration>
-                  <appName>myapp-prod</appName>
-                </configuration>
-              </plugin>
-            </plugins>
-          </build>
-        </profile>
-      </profiles>
-
 </project>
