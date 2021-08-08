@@ -7,12 +7,15 @@ public class Bot {
 
     public static void main(String[] args) throws LoginException, InterruptedException {
 
+        String TOKEN = null;
+
         if (args.length < 1) {
-            System.out.println("You have to provide TOKEN");
-            return;
+            TOKEN = System.getenv(TOKEN);
+        } else {
+            TOKEN = args[0];
         }
 
-        JDABuilder builder = JDABuilder.createDefault(args[0]);
+        JDABuilder builder = JDABuilder.createDefault(TOKEN);
 
         builder.setActivity(Activity.playing("琢磨咖啡沖泡技術"));
 
