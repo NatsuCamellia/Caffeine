@@ -10,7 +10,7 @@ public class Bot {
         String TOKEN = null;
 
         if (args.length < 1) {
-            TOKEN = System.getenv(TOKEN);
+            TOKEN = System.getenv("TOKEN");
         } else {
             TOKEN = args[0];
         }
