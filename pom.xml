@@ -85,7 +85,7 @@
 
     <profiles>
         <profile>
-          <id>test</id>
+          <id>jdacaffeine</id>
           <build>
             <plugins>
               <plugin>
