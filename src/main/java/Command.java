@@ -1,5 +1,11 @@
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -10,34 +16,53 @@ public class Command extends ListenerAdapter {
 
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
 
-        String[] message = event.getMessage().getContentRaw().split(" ");
-        String command = message[0];
+        String[] args = event.getMessage().getContentRaw().split(" ");
+        String command = args[0];
 
-        if (command.equalsIgnoreCase("getMention")) {
+        if (command.equalsIgnoreCase("user")) {
 
-            String mention = event.getAuthor().getAsMention();
+            try {
+                Member member = event.getMessage().getMentionedMembers().get(0);
+                
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
 
-            event.getChannel().sendMessage(mention).queue();
+                String account = member.getUser().getAsTag();
+                String nickname = member.getEffectiveName();
+                String avatar = member.getUser().getAvatarUrl() == null ? member.getUser().getDefaultAvatarUrl() : member.getUser().getAvatarUrl();
+                String created = OffsetDateTime.ofInstant(member.getUser().getTimeCreated().toInstant(), ZoneId.systemDefault()).format(formatter) + "\n(UTC+8)";
+                String joined = OffsetDateTime.ofInstant(member.getTimeJoined().toInstant(), ZoneId.systemDefault()).format(formatter) + "\n(UTC+8)";
+                Iterator<Role> roleIterator = member.getRoles().iterator();
+                String role = "";
+                while (roleIterator.hasNext()) {
+                    role += roleIterator.next().getAsMention();
+                }
+                User author = event.getAuthor();
+                String authorAvatar = author.getAvatarUrl() == null ? author.getDefaultAvatarUrl() : author.getAvatarUrl();
 
-        } else if (command.equalsIgnoreCase("getId")) {
+                EmbedBuilder builder = new EmbedBuilder();
+                builder.setColor(0x5398ed);
+                builder.setAuthor(account);
+                builder.setThumbnail(avatar);
+                builder.setFooter("查詢者：" + author.getAsTag(), authorAvatar);
+                builder.addField("帳戶名稱", account, true);
+                builder.addField("伺服器暱稱", nickname, true);
+                builder.addField("帳號創建時間", created, true);
+                builder.addField("加入伺服器時間", joined, true);
+                builder.addField("身分組", role, true);
 
-            sendPrivateMessage(event.getAuthor(), event.getAuthor().getId());
+                event.getChannel().sendMessageEmbeds(builder.build()).queue();
 
-        } else if (command.equalsIgnoreCase("info")) {
+            } catch (IndexOutOfBoundsException e) {
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
+                EmbedBuilder usage = new EmbedBuilder();
+                usage.setColor(0x5398ed);
+                usage.setTitle("查詢帳號資料");
+                usage.setDescription("用法：`user @mention`");
 
-            String created = event.getAuthor().getTimeCreated().format(formatter);
+                event.getChannel().sendMessageEmbeds(usage.build()).queue();
 
-            event.getChannel().sendMessage(created).queue();
+            }
 
-        } else if (command.equalsIgnoreCase("join")) {
-
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
-
-            String joined = event.getMember().getTimeJoined().format(formatter);
-
-            event.getChannel().sendMessage(joined).queue();
         }
     }
 
@@ -62,12 +87,6 @@ public class Command extends ListenerAdapter {
             System.out.printf("[%s] [%s] %s: %s\n", event.getGuild().getName(), event.getTextChannel().getName(),
                     event.getMember().getEffectiveName(), event.getMessage().getContentDisplay());
         }
-    }
-
-    public void sendPrivateMessage(User user, String content) {
-        user.openPrivateChannel().queue(channel -> {
-            channel.sendMessage(content).queue();
-        });
     }
 
 }
