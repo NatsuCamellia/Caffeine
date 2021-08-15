@@ -1,11 +1,13 @@
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.Iterator;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -14,10 +16,14 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class Command extends ListenerAdapter {
 
+    HashMap<User, GuessNumber> guessNumber = new HashMap<User, GuessNumber>();
+
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
 
         String[] args = event.getMessage().getContentRaw().split(" ");
         String command = args[0];
+        TextChannel channel = event.getChannel();
+        User author = event.getAuthor();
 
         if (command.equalsIgnoreCase("user")) {
 
@@ -36,7 +42,6 @@ public class Command extends ListenerAdapter {
                 while (roleIterator.hasNext()) {
                     role += roleIterator.next().getAsMention();
                 }
-                User author = event.getAuthor();
                 String authorAvatar = author.getAvatarUrl() == null ? author.getDefaultAvatarUrl() : author.getAvatarUrl();
 
                 EmbedBuilder builder = new EmbedBuilder();
@@ -63,6 +68,22 @@ public class Command extends ListenerAdapter {
 
             }
 
+        } else if (command.equalsIgnoreCase("1A2B")) {
+            if (args.length == 1) {
+
+                EmbedBuilder usage = new EmbedBuilder();
+                usage.setColor(0x5398ed);
+                usage.setTitle(":1234:猜數字1A2B");
+                usage.setDescription(String.format("用法：%n%-14s `1A2B play`%n%-14s `1A2B number`%n%-14s `1A2B stop`", "開始一把新遊戲", "猜數字", "翻桌放棄"));
+
+                event.getChannel().sendMessageEmbeds(usage.build()).queue();
+
+            } else {
+                if (!guessNumber.containsKey(event.getAuthor())) {
+                    guessNumber.put(author, new GuessNumber(author));
+                }
+                guessNumber.get(event.getAuthor()).run(channel, args[1]);
+            }
         }
     }
 
