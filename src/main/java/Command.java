@@ -39,13 +39,13 @@ public class Command extends ListenerAdapter {
                 String joined = OffsetDateTime.ofInstant(member.getTimeJoined().toInstant(), ZoneId.systemDefault()).format(formatter) + "\n(UTC+8)";
                 Iterator<Role> roleIterator = member.getRoles().iterator();
                 String role = "";
-                while (roleIterator.hasNext()) {
+                while (roleIterator.hasNext()) 
                     role += roleIterator.next().getAsMention();
-                }
+                
                 String authorAvatar = author.getAvatarUrl() == null ? author.getDefaultAvatarUrl() : author.getAvatarUrl();
 
                 EmbedBuilder builder = new EmbedBuilder();
-                builder.setColor(0x5398ed);
+                builder.setColor(EmbedUtil.blue);
                 builder.setAuthor(account);
                 builder.setThumbnail(avatar);
                 builder.setFooter("查詢者：" + author.getAsTag(), authorAvatar);
@@ -60,7 +60,7 @@ public class Command extends ListenerAdapter {
             } catch (IndexOutOfBoundsException e) {
 
                 EmbedBuilder usage = new EmbedBuilder();
-                usage.setColor(0x5398ed);
+                usage.setColor(EmbedUtil.blue);
                 usage.setTitle("查詢帳號資料");
                 usage.setDescription("用法：`user @mention`");
 
