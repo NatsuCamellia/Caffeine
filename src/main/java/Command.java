@@ -59,12 +59,7 @@ public class Command extends ListenerAdapter {
 
             } catch (IndexOutOfBoundsException e) {
 
-                EmbedBuilder usage = new EmbedBuilder();
-                usage.setColor(EmbedUtil.blue);
-                usage.setTitle("查詢帳號資料");
-                usage.setDescription("用法：`user @mention`");
-
-                event.getChannel().sendMessageEmbeds(usage.build()).queue();
+                EmbedUtil.sendUsageEmbed(channel, "查詢帳號資料", "user @mention");
 
             }
 
@@ -72,7 +67,7 @@ public class Command extends ListenerAdapter {
             if (args.length == 1) {
 
                 EmbedBuilder usage = new EmbedBuilder();
-                usage.setColor(0x5398ed);
+                usage.setColor(EmbedUtil.blue);
                 usage.setTitle(":1234:猜數字1A2B");
                 usage.setDescription(String.format("用法：%n%-14s `1A2B play`%n%-14s `1A2B number`%n%-14s `1A2B stop`", "開始一把新遊戲", "猜數字", "翻桌放棄"));
 
