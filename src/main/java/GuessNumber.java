@@ -22,6 +22,7 @@ public class GuessNumber {
             answer += s;
         }
         answer = answer.substring(0, 4);
+        System.out.println(answer);
     }
 
     public void stop() {
@@ -36,8 +37,7 @@ public class GuessNumber {
         } else if (userInput.equalsIgnoreCase("play") && !gameActive) {
             newGame();
             channel.sendMessage("新遊戲開始").queue();
-        } else if (gameActive) {
-            validate(channel, userInput);
+        } else if (gameActive && validate(channel, userInput)) {
             int a = 0;
             int b = 0;
             for (int i = 0; i < userInput.length(); i++) {
