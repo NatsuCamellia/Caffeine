@@ -5,6 +5,8 @@ import net.dv8tion.jda.api.entities.Activity;
 
 public class Bot {
 
+    public static String prefix = "";
+
     public static void main(String[] args) throws LoginException, InterruptedException {
 
         String TOKEN = null;
@@ -19,7 +21,7 @@ public class Bot {
 
         builder.setActivity(Activity.playing("琢磨咖啡沖泡技術"));
 
-        builder.addEventListeners(new Command());
+        builder.addEventListeners(new Command(), new PetListener());
 
         JDA jda = builder.build();
         
