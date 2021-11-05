@@ -9,8 +9,6 @@ public class Fun extends ListenerAdapter {
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
 
         String message = event.getMessage().getContentRaw();
-        String[] args = message.split(" ");
-        String command = args[0];
         TextChannel channel = event.getChannel();
         User author = event.getAuthor();
 
