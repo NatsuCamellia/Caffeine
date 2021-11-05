@@ -1,11 +1,10 @@
 import javax.security.auth.login.LoginException;
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 
 public class Bot {
 
-    public static String prefix = "";
+    public static String prefix = "%";
 
     public static void main(String[] args) throws LoginException, InterruptedException {
 
@@ -19,12 +18,11 @@ public class Bot {
 
         JDABuilder builder = JDABuilder.createDefault(TOKEN);
 
-        builder.setActivity(Activity.playing("琢磨咖啡沖泡技術"));
+        builder.setActivity(Activity.playing("拉花"));
 
-        builder.addEventListeners(new Command(), new PetListener());
+        builder.addEventListeners(new Command());
+        builder.addEventListeners(new PetListener());
 
-        JDA jda = builder.build();
-        
-        jda.upsertCommand("ping", "Caculate ping of the BOT").queue();
+        builder.build();
     }
 }
