@@ -15,6 +15,7 @@ public class Fun extends ListenerAdapter {
         User author = event.getAuthor();
 
         if (message.contains("機率")) {
+            System.out.println("Checkpoint");
             Random random = new Random();
             int chance = random.nextInt(101); // 0 ~ 100
             EmbedBuilder builder = new EmbedBuilder();
