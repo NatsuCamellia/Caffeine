@@ -1,1 +1,1 @@
-Worker: java -jar target/Caffeine-1.0.jar
+Worker: java -jar target/Caffeine-1.1.jar
