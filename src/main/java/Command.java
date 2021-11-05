@@ -9,7 +9,6 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -25,23 +24,22 @@ public class Command extends ListenerAdapter {
         TextChannel channel = event.getChannel();
         User author = event.getAuthor();
 
-        if (command.equalsIgnoreCase("user")) {
+        if (command.equalsIgnoreCase(Bot.prefix + "user")) {
 
             try {
                 Member member = event.getMessage().getMentionedMembers().get(0);
-                
+
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
 
                 String account = member.getUser().getAsTag();
                 String nickname = member.getEffectiveName();
                 String avatar = member.getUser().getAvatarUrl() == null ? member.getUser().getDefaultAvatarUrl() : member.getUser().getAvatarUrl();
-                String created = OffsetDateTime.ofInstant(member.getUser().getTimeCreated().toInstant(), ZoneId.systemDefault()).format(formatter) + "\n(UTC+8)";
+                String created = OffsetDateTime.ofInstant(member.getUser().getTimeCreated().toInstant(), ZoneId.of("UTC+8")).format(formatter) + "\n(UTC+8)";
                 String joined = OffsetDateTime.ofInstant(member.getTimeJoined().toInstant(), ZoneId.systemDefault()).format(formatter) + "\n(UTC+8)";
                 Iterator<Role> roleIterator = member.getRoles().iterator();
                 String role = "";
-                while (roleIterator.hasNext()) 
-                    role += roleIterator.next().getAsMention();
-                
+                while (roleIterator.hasNext()) role += roleIterator.next().getAsMention();
+
                 String authorAvatar = author.getAvatarUrl() == null ? author.getDefaultAvatarUrl() : author.getAvatarUrl();
 
                 EmbedBuilder builder = new EmbedBuilder();
@@ -57,46 +55,44 @@ public class Command extends ListenerAdapter {
 
                 event.getChannel().sendMessageEmbeds(builder.build()).queue();
 
+                return;
+
             } catch (IndexOutOfBoundsException e) {
 
                 EmbedUtil.sendUsageEmbed(channel, "查詢帳號資料", "user @mention");
+                return;
 
             }
 
-        } else if (command.equalsIgnoreCase("1A2B")) {
+        }
+
+        if (command.equalsIgnoreCase(Bot.prefix + "1A2B")) {
+            // 只有 1A2B
             if (args.length == 1) {
 
                 EmbedBuilder usage = new EmbedBuilder();
                 usage.setColor(EmbedUtil.blue);
                 usage.setTitle(":1234:猜數字1A2B");
-                usage.setDescription(String.format("用法：%n%-14s `1A2B play`%n%-14s `1A2B number`%n%-14s `1A2B stop`", "開始一把新遊戲", "猜數字", "翻桌放棄"));
+                usage.setDescription(String.format("用法：%n%14s `1A2B play`%n%14s `1A2B number`%n%14s `1A2B stop`",
+                        "開始一把新遊戲", "猜數字", "翻桌放棄"));
 
                 event.getChannel().sendMessageEmbeds(usage.build()).queue();
-
-            } else {
-                if (!guessNumber.containsKey(event.getAuthor())) {
-                    guessNumber.put(author, new GuessNumber(author));
-                }
-                guessNumber.get(event.getAuthor()).run(channel, args[1]);
+                return;
             }
-        }
-    }
 
-    @Override
-    public void onSlashCommand(SlashCommandEvent event) {
-        if (event.getName().equals("ping")) {
+            // 尚未創建物件
+            if (!guessNumber.containsKey(event.getAuthor())) {
+                guessNumber.put(author, new GuessNumber(author));
+            }
 
-            long time = System.currentTimeMillis();
-
-            event.reply("Pong!").setEphemeral(true)
-                    .flatMap(v -> event.getHook().editOriginalFormat("Pong: %d ms", System.currentTimeMillis() - time))
-                    .queue();
-
+            guessNumber.get(event.getAuthor()).run(channel, args[1]);
+            return;
         }
     }
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
+        if (event.getAuthor().isBot()) return;
         if (event.isFromType(ChannelType.PRIVATE)) {
             System.out.printf("[PM] %s: %s\n", event.getAuthor().getName(), event.getMessage().getContentDisplay());
         } else {
