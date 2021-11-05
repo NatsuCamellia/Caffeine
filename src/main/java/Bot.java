@@ -21,7 +21,7 @@ public class Bot {
         builder.setActivity(Activity.playing("拉花"));
 
         builder.addEventListeners(new Command());
-        builder.addEventListeners(new PetListener());
+        // builder.addEventListeners(new PetListener());
 
         builder.build();
     }
