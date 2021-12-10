@@ -21,7 +21,6 @@ public class Bot {
         builder.setActivity(Activity.playing("神秘咖啡杯"));
 
         builder.addEventListeners(new Command(), new Fun());
-        // builder.addEventListeners(new PetListener());
 
         builder.build();
     }
