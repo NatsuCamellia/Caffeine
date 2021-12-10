@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-public class Fun extends ListenerAdapter {
+public class Text extends ListenerAdapter {
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
 
         String message = event.getMessage().getContentRaw();
