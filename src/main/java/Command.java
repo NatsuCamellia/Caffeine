@@ -35,7 +35,7 @@ public class Command extends ListenerAdapter {
                 String nickname = member.getEffectiveName();
                 String avatar = member.getUser().getAvatarUrl() == null ? member.getUser().getDefaultAvatarUrl() : member.getUser().getAvatarUrl();
                 String created = OffsetDateTime.ofInstant(member.getUser().getTimeCreated().toInstant(), ZoneId.of("UTC+8")).format(formatter) + "\n(UTC+8)";
-                String joined = OffsetDateTime.ofInstant(member.getTimeJoined().toInstant(), ZoneId.systemDefault()).format(formatter) + "\n(UTC+8)";
+                String joined = OffsetDateTime.ofInstant(member.getTimeJoined().toInstant(), ZoneId.of("UTC+8")).format(formatter) + "\n(UTC+8)";
                 Iterator<Role> roleIterator = member.getRoles().iterator();
                 String role = "";
                 while (roleIterator.hasNext()) role += roleIterator.next().getAsMention();
