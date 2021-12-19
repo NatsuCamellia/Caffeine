@@ -3,6 +3,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Iterator;
+
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Member;
@@ -36,6 +37,9 @@ public class Command extends ListenerAdapter {
                 String avatar = member.getUser().getAvatarUrl() == null ? member.getUser().getDefaultAvatarUrl() : member.getUser().getAvatarUrl();
                 String created = OffsetDateTime.ofInstant(member.getUser().getTimeCreated().toInstant(), ZoneId.of("UTC+8")).format(formatter) + "\n(UTC+8)";
                 String joined = OffsetDateTime.ofInstant(member.getTimeJoined().toInstant(), ZoneId.systemDefault()).format(formatter) + "\n(UTC+8)";
+                JsonUtil json = new JsonUtil(member.getId());
+                Long overall_xp = json.getAccountXp();
+                Long guild_xp = json.getGuildXp(event.getGuild().getId());
                 Iterator<Role> roleIterator = member.getRoles().iterator();
                 String role = "";
                 while (roleIterator.hasNext()) role += roleIterator.next().getAsMention();
@@ -51,6 +55,8 @@ public class Command extends ListenerAdapter {
                 builder.addField("伺服器暱稱", nickname, true);
                 builder.addField("帳號創建時間", created, true);
                 builder.addField("加入伺服器時間", joined, true);
+                builder.addField("帳號經驗", String.valueOf(overall_xp), true);
+                builder.addField("帳號在本伺服器經驗", guild_xp.toString(), true);
                 builder.addField("身分組", role, true);
 
                 event.getChannel().sendMessageEmbeds(builder.build()).queue();
