@@ -36,7 +36,7 @@ public class Command extends ListenerAdapter {
                 String nickname = member.getEffectiveName();
                 String avatar = member.getUser().getAvatarUrl() == null ? member.getUser().getDefaultAvatarUrl() : member.getUser().getAvatarUrl();
                 String created = OffsetDateTime.ofInstant(member.getUser().getTimeCreated().toInstant(), ZoneId.of("UTC+8")).format(formatter) + "\n(UTC+8)";
-                String joined = OffsetDateTime.ofInstant(member.getTimeJoined().toInstant(), ZoneId.systemDefault()).format(formatter) + "\n(UTC+8)";
+                String joined = OffsetDateTime.ofInstant(member.getTimeJoined().toInstant(), ZoneId.of("UTC+8")).format(formatter) + "\n(UTC+8)";
                 JsonUtil json = new JsonUtil(member.getId());
                 Long overall_xp = json.getAccountXp();
                 Long guild_xp = json.getGuildXp(event.getGuild().getId());
