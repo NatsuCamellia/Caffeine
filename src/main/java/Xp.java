@@ -26,7 +26,7 @@ public class Xp extends ListenerAdapter {
 
         Long lastTime = time.get(user_id);
         
-        if (now - lastTime < 6) {
+        if (now - lastTime < 60000) {
             return;
         }
 
