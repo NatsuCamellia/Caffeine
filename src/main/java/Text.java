@@ -27,6 +27,19 @@ public class Text extends ListenerAdapter {
             return;
         }
 
+        if (message.contains("是否")) {
+            Random random = new Random();
+            String tf = random.nextInt(2) == 1 ? "是" : "否"; // 0 ~ 1
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.setColor(EmbedUtil.blue);
+            builder.setAuthor("爪哇咖啡占卜奧術");
+            builder.addField("問卜者", author.getAsTag(), true);
+            builder.addField("問卜之事", message, true);
+            builder.addField("結果", "根據電晶體True與False之間的高速來回變換，我得出了答案為："+ tf, false);
+            channel.sendMessageEmbeds(builder.build()).queue();
+            return;
+        }
+
         if (message.equals("學測")) {
             LocalDate today = LocalDate.now();
             LocalDate test = LocalDate.of(2022, 1, 21);
