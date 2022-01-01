@@ -50,6 +50,9 @@ public class Text extends ListenerAdapter {
             EmbedBuilder builder = new EmbedBuilder();
             builder.setColor(EmbedUtil.blue);
             builder.setAuthor("學測資訊");
+            builder.addField("1/21(五)", "9:20 ~ 11:00 數A\n12:50 ~ 14:40 自然", true);
+            builder.addField("1/22(六)", "9:20 ~ 11:00 英文\n12:50 ~ 14:20 國綜\n15:20 ~ 16:50 國寫", true);
+            builder.addField("1/23(日)", "9:20 ~ 11:00 數B\n12:50 ~ 14:40 社會", true);
             builder.addField("學測倒數", "距離學測還有 **" + String.valueOf(days + months * 31) + "** 天", true);
             builder.setFooter(author.getAsTag(), author.getAvatarUrl());
             channel.sendMessageEmbeds(builder.build()).queue();
