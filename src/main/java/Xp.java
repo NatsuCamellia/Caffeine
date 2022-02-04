@@ -1,10 +1,5 @@
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -35,38 +30,13 @@ public class Xp extends ListenerAdapter {
         
     }
 
-    @SuppressWarnings("unchecked")
     public void add_xp(String user_id, String guild_id) {
 
-        JSONObject object = new JSONObject();
-        Map<String, Long> xp;
+        JsonUtil json = new JsonUtil(user_id);
 
-        try {
-            FileReader reader = new FileReader("src/main/userdata/" + user_id + ".json");
-            JSONParser parser = new JSONParser();
-            object = (JSONObject)parser.parse(reader);
-            xp = (HashMap<String, Long>)object.get("xp");
-
-        } catch (Exception e) {
-            System.out.println("Couldn't find userdata.");
-            
-            xp = new HashMap<String, Long>();
-            xp.put("account", 0L);
-        }
+        json.setAccoundXp(json.getAccountXp() + 1);
+        json.setGuildXp(guild_id, json.getGuildXp(guild_id) + 1);
         
-        if (xp.containsKey(guild_id) == false) {
-            xp.put(guild_id, 0L);
-        }
-
-        xp.put(guild_id, xp.get(guild_id) + 1);
-        xp.put("account", xp.get("account") + 1);
-
-        object.put("xp", xp);
-
-        try (FileWriter writer = new FileWriter("src/main/userdata/" + user_id + ".json")) {
-            writer.write(object.toJSONString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        json.flush();
     }
 }
