@@ -103,7 +103,6 @@ public class Command extends ListenerAdapter {
             builder.addField("指令：%user <@user>", "查詢帳號資料", false);
             builder.addField("指令：%1A2B play", "猜數字遊戲\n(體驗不佳，第一次會出現沒有答案的BUG)", false);
             builder.addField("文字：機率", "訊息內有\"訊息\"就會回傳一個機率值", false);
-            builder.addField("文字：學測", "傳送\"學測\"以獲取學測資訊", false);
 
             channel.sendMessageEmbeds(builder.build()).queue();
         }
