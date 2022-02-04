@@ -18,9 +18,9 @@ public class Bot {
 
         JDABuilder builder = JDABuilder.createDefault(TOKEN);
 
-        builder.setActivity(Activity.playing("神秘咖啡杯"));
+        builder.setActivity(Activity.playing("測試中..."));
 
-        builder.addEventListeners(new Command(), new Text(), new Xp());
+        builder.addEventListeners(new Command(), new Text(), new Xp(), new Economy());
 
         builder.build();
     }

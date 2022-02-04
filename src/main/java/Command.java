@@ -40,6 +40,7 @@ public class Command extends ListenerAdapter {
                 JsonUtil json = new JsonUtil(member.getId());
                 Long overall_xp = json.getAccountXp();
                 Long guild_xp = json.getGuildXp(event.getGuild().getId());
+                Long balance = json.getBalance();
                 Iterator<Role> roleIterator = member.getRoles().iterator();
                 String role = "";
                 while (roleIterator.hasNext()) role += roleIterator.next().getAsMention();
@@ -57,6 +58,7 @@ public class Command extends ListenerAdapter {
                 builder.addField("加入伺服器時間", joined, true);
                 builder.addField("帳號經驗", String.valueOf(overall_xp), true);
                 builder.addField("帳號在本伺服器經驗", guild_xp.toString(), true);
+                builder.addField("金錢", String.valueOf(balance), true);
                 builder.addField("身分組", role, true);
 
                 event.getChannel().sendMessageEmbeds(builder.build()).queue();
