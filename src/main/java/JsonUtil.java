@@ -30,6 +30,7 @@ public class JsonUtil {
 
             if (xp == null) {
                 xp = new HashMap<String, Long>();
+                object.put("xp", xp);
             }
 
             if (economy == null) {
