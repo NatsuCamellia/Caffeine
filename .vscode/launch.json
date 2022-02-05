@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Bot",
+            "request": "launch",
+            "mainClass": "Caffeine.Bot",
+            "projectName": "JaBot"
+        },
+        {
+            "type": "java",
             "name": "Launch JsonSimple",
             "request": "launch",
             "mainClass": "JsonSimple",
