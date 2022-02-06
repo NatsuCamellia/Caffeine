@@ -25,7 +25,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>Bot</mainClass>
+                            <mainClass>Caffeine.Bot</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
