@@ -2,7 +2,6 @@ package Caffeine;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.Iterator;
 
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -18,8 +17,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.Button;
 
 public class Command extends ListenerAdapter {
-
-    HashMap<User, GuessNumber> guessNumber = new HashMap<User, GuessNumber>();
 
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
 
@@ -68,29 +65,6 @@ public class Command extends ListenerAdapter {
             builder.addField("身分組", role, true);
 
             event.getChannel().sendMessageEmbeds(builder.build()).queue();
-        }
-
-        if (command.equalsIgnoreCase(Bot.prefix + "1A2B")) {
-
-            if (args.length == 1) {
-
-                EmbedBuilder usage = new EmbedBuilder();
-                usage.setColor(EmbedUtil.BLUE);
-                usage.setTitle(":1234:猜數字1A2B");
-                usage.setDescription(String.format("用法：%n%14s `1A2B play`%n%14s `1A2B number`%n%14s `1A2B stop`",
-                        "開始一把新遊戲", "猜數字", "翻桌放棄"));
-
-                event.getChannel().sendMessageEmbeds(usage.build()).queue();
-                return;
-            }
-
-            // 尚未創建物件
-            if (!guessNumber.containsKey(event.getAuthor())) {
-                guessNumber.put(author, new GuessNumber(author));
-            }
-
-            guessNumber.get(event.getAuthor()).run(channel, args[1]);
-            return;
         }
     
         if (command.equalsIgnoreCase(Bot.prefix + "help")) {
