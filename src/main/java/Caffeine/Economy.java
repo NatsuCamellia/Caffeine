@@ -16,9 +16,9 @@ public class Economy extends ListenerAdapter{
 
         if (command.equalsIgnoreCase(Bot.prefix + "daily")) {
             if (signed(author)) {
-                EmbedUtil.sendMessageEmbed(event.getChannel(), ":red_envelope: 每日簽到", ":white_check_mark: 今日已簽到", author);
+                EmbedUtil.sendMessageEmbed(event.getChannel(), ":red_envelope: 每日補給", ":white_check_mark: 今日已領取", author);
             } else {
-                EmbedUtil.sendMessageEmbed(event.getChannel(), ":red_envelope: 每日簽到", "簽到獎勵\n:moneybag: +100", author);
+                EmbedUtil.sendMessageEmbed(event.getChannel(), ":red_envelope: 每日補給", "補給獎勵\n:moneybag: +100", author);
                 JsonUtil json = new JsonUtil(author.getId());
                 json.setBalance(json.getBalance() + 100);
                 
