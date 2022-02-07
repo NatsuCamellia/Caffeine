@@ -23,10 +23,7 @@
             "name": "Launch External Terminal",
             "request": "launch",
             "console": "externalTerminal",
-            "mainClass": "",
-            "args": [
-                "NzQxMTczMzI2NzA5NTIyNTAz.Xyztcw.FtmZ_XnGnQh2z7hM4rnIJis12X4"
-            ]
+            "mainClass": ""
         },
         {
             "type": "java",
