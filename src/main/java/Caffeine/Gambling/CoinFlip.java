@@ -6,9 +6,9 @@ import Caffeine.JsonUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.interactions.components.Button;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 
 public class CoinFlip extends Gambling {
     
@@ -25,9 +25,9 @@ public class CoinFlip extends Gambling {
 
     EmbedBuilder builder = new EmbedBuilder();
 
-    public CoinFlip (GuildMessageReceivedEvent event) {
+    public CoinFlip (MessageReceivedEvent event) {
         this.user = event.getAuthor();
-        this.channel = event.getChannel();
+        this.channel = event.getTextChannel();
         this.json = new JsonUtil(user.getId());
         try {
             reset(Long.valueOf(event.getMessage().getContentRaw().split(" ")[1]));
@@ -104,7 +104,7 @@ public class CoinFlip extends Gambling {
         flip = random.nextBoolean() == true ? UP : DOWN;
     }
 
-    public void handleClick(ButtonClickEvent event) {
+    public void handleClick(ButtonInteractionEvent event) {
         if (event.getUser() != user) return; // Exclusive to the player
         String arg = event.getComponentId().split(" ")[1];
         switch (arg) {

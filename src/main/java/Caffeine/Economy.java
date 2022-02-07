@@ -3,12 +3,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class Economy extends ListenerAdapter{
     
-    public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
+    public void onMessageReceived(MessageReceivedEvent event) {
+        
+        if (!event.isFromGuild()) return;
 
         String[] args = event.getMessage().getContentRaw().split(" ");
         String command = args[0];
@@ -16,9 +18,9 @@ public class Economy extends ListenerAdapter{
 
         if (command.equalsIgnoreCase(Bot.prefix + "daily")) {
             if (signed(author)) {
-                EmbedUtil.sendMessageEmbed(event.getChannel(), ":red_envelope: 每日補給", ":white_check_mark: 今日已領取", author);
+                EmbedUtil.sendMessageEmbed(event.getTextChannel(), ":red_envelope: 每日補給", ":white_check_mark: 今日已領取", author);
             } else {
-                EmbedUtil.sendMessageEmbed(event.getChannel(), ":red_envelope: 每日補給", "補給獎勵\n:moneybag: +100", author);
+                EmbedUtil.sendMessageEmbed(event.getTextChannel(), ":red_envelope: 每日補給", "補給獎勵\n:moneybag: +100", author);
                 JsonUtil json = new JsonUtil(author.getId());
                 json.setBalance(json.getBalance() + 100);
                 

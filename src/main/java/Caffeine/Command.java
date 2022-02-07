@@ -10,19 +10,28 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.components.Button;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 
 public class Command extends ListenerAdapter {
 
-    public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
+    public void onMessageReceived(MessageReceivedEvent event) {
 
+        if (event.getAuthor().isBot()) return;
+
+        if (event.isFromType(ChannelType.PRIVATE)) {
+            System.out.printf("[PM] %s: %s\n", event.getAuthor().getName(), event.getMessage().getContentDisplay());
+        } else {
+            System.out.printf("[%s] [%s] %s: %s\n", event.getGuild().getName(), event.getTextChannel().getName(),
+                    event.getMember().getEffectiveName(), event.getMessage().getContentDisplay());
+        }
+
+        if (!event.isFromGuild()) return;
         String[] args = event.getMessage().getContentRaw().split(" ");
         String command = args[0];
-        TextChannel channel = event.getChannel();
+        TextChannel channel = event.getTextChannel();
         User author = event.getAuthor();
 
         if (command.equalsIgnoreCase(Bot.prefix + "user")) {
@@ -88,10 +97,11 @@ public class Command extends ListenerAdapter {
             Button link = Button.link("https://www.google.com.tw/?hl=zh_TW", "Link");
             event.getChannel().sendMessage("按鈕列表").setActionRow(primary, success, secondary, danger, link).queue();
         }
+
     }
 
     @Override
-    public void onButtonClick(ButtonClickEvent event) {
+    public void onButtonInteraction(ButtonInteractionEvent event) {
         String id = event.getComponentId();
         if (id.equals("primary")) {
             event.editMessage("Primary").queue();
@@ -99,16 +109,4 @@ public class Command extends ListenerAdapter {
             event.editMessage("Success").queue();
         }
     }
-
-    @Override
-    public void onMessageReceived(MessageReceivedEvent event) {
-        if (event.getAuthor().isBot()) return;
-        if (event.isFromType(ChannelType.PRIVATE)) {
-            System.out.printf("[PM] %s: %s\n", event.getAuthor().getName(), event.getMessage().getContentDisplay());
-        } else {
-            System.out.printf("[%s] [%s] %s: %s\n", event.getGuild().getName(), event.getTextChannel().getName(),
-                    event.getMember().getEffectiveName(), event.getMessage().getContentDisplay());
-        }
-    }
-
 }

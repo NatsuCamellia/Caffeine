@@ -2,14 +2,16 @@ package Caffeine;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class Xp extends ListenerAdapter {
     
     Map<String, Long> time = new HashMap<>();
 
-    public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
+    public void onMessageReceived(MessageReceivedEvent event) {
+        
+        if (!event.isFromGuild()) return;
         
         String guild_id = event.getGuild().getId();
         String user_id = event.getAuthor().getId();

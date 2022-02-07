@@ -3,14 +3,16 @@ import java.util.Random;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class Text extends ListenerAdapter {
-    public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
+    public void onMessageReceived(MessageReceivedEvent event) {
+
+        if (!event.isFromGuild()) return;
 
         String message = event.getMessage().getContentRaw();
-        TextChannel channel = event.getChannel();
+        TextChannel channel = event.getTextChannel();
         User author = event.getAuthor();
 
         if (message.contains("機率")) {
