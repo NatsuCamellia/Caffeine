@@ -2,42 +2,33 @@ package Caffeine.listener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import Caffeine.core.Bot;
 import Caffeine.util.EmbedUtil;
 import Caffeine.util.JsonUtil;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-public class Economy extends ListenerAdapter{
-    
-    public void onMessageReceived(MessageReceivedEvent event) {
-        
-        if (!event.isFromGuild()) return;
+public class Economy {
 
-        String[] args = event.getMessage().getContentRaw().split(" ");
-        String command = args[0];
-        User author = event.getAuthor();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu MM dd");
 
-        if (command.equalsIgnoreCase(Bot.prefix + "daily")) {
-            if (signed(author)) {
-                EmbedUtil.sendMessageEmbed(event.getTextChannel(), ":red_envelope: 每日補給", ":white_check_mark: 今日已領取", author);
-            } else {
-                EmbedUtil.sendMessageEmbed(event.getTextChannel(), ":red_envelope: 每日補給", "補給獎勵\n:moneybag: +100", author);
-                JsonUtil json = new JsonUtil(author.getId());
-                json.setBalance(json.getBalance() + 100);
-                
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu MM dd");
-                String today = LocalDate.now().format(formatter);
-                json.setLastSign(today);
-                json.flush();
-            }
+    public void daily(TextChannel channel, User author) {
+
+        if (signed(author)) {
+            EmbedUtil.sendMessageEmbed(channel, ":red_envelope: 每日補給", ":white_check_mark: 今日已領取", author);
+        } else {
+            EmbedUtil.sendMessageEmbed(channel, ":red_envelope: 每日補給", "補給獎勵\n:moneybag: +100", author);
+            JsonUtil json = new JsonUtil(author.getId());
+            json.setBalance(json.getBalance() + 100);
+            
+            String today = LocalDate.now().format(formatter);
+            json.setLastSign(today);
+            json.flush();
         }
+
     }
 
     private Boolean signed(User user) {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu MM dd");
         JsonUtil json = new JsonUtil(user.getId());
         String today = LocalDate.now().format(formatter);
 

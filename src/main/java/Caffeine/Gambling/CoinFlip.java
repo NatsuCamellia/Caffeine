@@ -4,10 +4,10 @@ import java.util.Random;
 
 import Caffeine.util.JsonUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 
 public class CoinFlip extends Gambling {
@@ -25,12 +25,12 @@ public class CoinFlip extends Gambling {
 
     EmbedBuilder builder = new EmbedBuilder();
 
-    public CoinFlip (MessageReceivedEvent event) {
-        this.user = event.getAuthor();
-        this.channel = event.getTextChannel();
+    public CoinFlip (TextChannel channel, User user, Message message) {
+        this.user = user;
+        this.channel = channel;
         this.json = new JsonUtil(user.getId());
         try {
-            reset(Long.valueOf(event.getMessage().getContentRaw().split(" ")[1]));
+            reset(Long.valueOf(message.getContentRaw().split(" ")[1]));
         } catch (Exception e) {
             reset(0L);
         }
