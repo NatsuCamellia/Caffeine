@@ -1,4 +1,4 @@
-package Caffeine.Util;
+package Caffeine.util;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.HashMap;
