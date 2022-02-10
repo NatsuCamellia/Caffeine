@@ -1,7 +1,4 @@
 {
-    // 使用 IntelliSense 以得知可用的屬性。
-    // 暫留以檢視現有屬性的描述。
-    // 如需詳細資訊，請瀏覽: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
@@ -9,14 +6,7 @@
             "name": "Launch Bot",
             "request": "launch",
             "mainClass": "Caffeine.Core.Bot",
-            "projectName": "JaBot"
-        },
-        {
-            "type": "java",
-            "name": "Launch JsonSimple",
-            "request": "launch",
-            "mainClass": "JsonSimple",
-            "projectName": "JaBot"
+            "projectName": "Caffeine"
         },
         {
             "type": "java",
@@ -24,19 +14,6 @@
             "request": "launch",
             "console": "externalTerminal",
             "mainClass": ""
-        },
-        {
-            "type": "java",
-            "name": "Launch Current File",
-            "request": "launch",
-            "mainClass": "${file}"
-        },
-        {
-            "type": "java",
-            "name": "Launch Bot",
-            "request": "launch",
-            "mainClass": "Bot",
-            "projectName": "JaBot"
         }
     ]
 }
