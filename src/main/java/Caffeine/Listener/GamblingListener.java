@@ -1,9 +1,9 @@
-package Caffeine.Listener;
+package Caffeine.listener;
 import java.util.HashMap;
 
-import Caffeine.Core.Bot;
-import Caffeine.Gambling.CoinFlip;
-import Caffeine.Gambling.Gambling;
+import Caffeine.core.Bot;
+import Caffeine.gambling.CoinFlip;
+import Caffeine.gambling.Gambling;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;

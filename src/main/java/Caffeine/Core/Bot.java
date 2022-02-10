@@ -1,11 +1,11 @@
-package Caffeine.Core;
+package Caffeine.core;
 import javax.security.auth.login.LoginException;
 
-import Caffeine.Listener.Command;
-import Caffeine.Listener.Economy;
-import Caffeine.Listener.GamblingListener;
-import Caffeine.Listener.Text;
-import Caffeine.Listener.Xp;
+import Caffeine.listener.Command;
+import Caffeine.listener.Economy;
+import Caffeine.listener.GamblingListener;
+import Caffeine.listener.Text;
+import Caffeine.listener.Xp;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 

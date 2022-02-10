@@ -1,8 +1,8 @@
-package Caffeine.Gambling;
+package Caffeine.gambling;
 
 import java.util.Random;
 
-import Caffeine.Util.JsonUtil;
+import Caffeine.util.JsonUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;

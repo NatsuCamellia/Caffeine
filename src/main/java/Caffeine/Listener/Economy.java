@@ -1,10 +1,10 @@
-package Caffeine.Listener;
+package Caffeine.listener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import Caffeine.Core.Bot;
-import Caffeine.Util.EmbedUtil;
-import Caffeine.Util.JsonUtil;
+import Caffeine.core.Bot;
+import Caffeine.util.EmbedUtil;
+import Caffeine.util.JsonUtil;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;

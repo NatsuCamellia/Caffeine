@@ -1,4 +1,4 @@
-package Caffeine.Gambling;
+package Caffeine.gambling;
 
 public abstract class Gambling {
     
