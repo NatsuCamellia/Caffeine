@@ -1,6 +1,7 @@
-package Caffeine;
+package Caffeine.Listener;
 import java.util.HashMap;
 
+import Caffeine.Core.Bot;
 import Caffeine.Gambling.CoinFlip;
 import Caffeine.Gambling.Gambling;
 import net.dv8tion.jda.api.entities.User;

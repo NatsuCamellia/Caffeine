@@ -1,7 +1,8 @@
-package Caffeine;
+package Caffeine.Listener;
 import java.util.HashMap;
 import java.util.Map;
 
+import Caffeine.Util.JsonUtil;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 

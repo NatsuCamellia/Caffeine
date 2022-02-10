@@ -1,5 +1,7 @@
-package Caffeine;
+package Caffeine.Listener;
 import java.util.Random;
+
+import Caffeine.Util.EmbedUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;

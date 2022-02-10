@@ -1,4 +1,4 @@
-package Caffeine;
+package Caffeine.Util;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
