@@ -20,46 +20,43 @@ public class MessageHandler {
 
     public void handle(MessageReceivedEvent event) {
         
-        if (event.getAuthor().isBot()) return;
+        if (event.getAuthor().isBot() | !event.isFromGuild()) return;
 
         printLog(event);
-
-        if (!event.isFromGuild()) return; // Not support PM currently
         
         Guild guild = event.getGuild();
         TextChannel channel = event.getTextChannel();
         User author = event.getAuthor();
         Message message = event.getMessage();
 
-        String[] args = message.getContentRaw().split(" ");
-        String command = args[0];
+        String command = message.getContentRaw().split(" ")[0].toLowerCase();
 
-        if (command.equalsIgnoreCase(Bot.prefix + "test")) {
+        if (command.equals(Bot.prefix + "test")) {
             System.out.println("test");
             return;
         }
 
-        if (command.equalsIgnoreCase(Bot.prefix + "user")) {
+        if (command.equals(Bot.prefix + "user")) {
             commandExecutor.user(guild, channel, author, message);
             return;
         }
 
-        if (command.equalsIgnoreCase(Bot.prefix + "help")) {
+        if (command.equals(Bot.prefix + "help")) {
             commandExecutor.help(channel, author);
             return;
         }
 
-        if (command.equalsIgnoreCase(Bot.prefix + "button")) {
+        if (command.equals(Bot.prefix + "button")) {
             commandExecutor.button(channel);
             return;
         }
 
-        if (command.equalsIgnoreCase(Bot.prefix + "coinflip")) {
+        if (command.equals(Bot.prefix + "coinflip")) {
             gambling.coinflip(channel, author, message);
             return;
         }
 
-        if (command.equalsIgnoreCase(Bot.prefix + "daily")) {
+        if (command.equals(Bot.prefix + "daily")) {
             economy.daily(channel, author);
             return;
         }
