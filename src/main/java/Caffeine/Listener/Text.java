@@ -6,9 +6,8 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-public class Text extends ListenerAdapter {
+public class Text {
 
     public void chance(TextChannel channel, User author, Message message) {
         Random random = new Random();

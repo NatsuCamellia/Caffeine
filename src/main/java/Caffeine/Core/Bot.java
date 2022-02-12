@@ -1,7 +1,6 @@
 package Caffeine.core;
 import javax.security.auth.login.LoginException;
 
-import Caffeine.listener.Xp;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 
@@ -23,7 +22,7 @@ public class Bot {
 
         builder.setActivity(Activity.playing("最新金錢功能開發中!"));
 
-        builder.addEventListeners(new Xp(), new Listener());
+        builder.addEventListeners(new Listener());
 
         builder.build();
     }

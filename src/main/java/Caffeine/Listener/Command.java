@@ -15,7 +15,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 
-public class Command{
+public class Command {
 
     public void user(Guild guild, TextChannel channel, User author, Message message) {
         

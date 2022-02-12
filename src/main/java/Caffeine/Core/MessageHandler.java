@@ -4,6 +4,7 @@ import Caffeine.listener.Command;
 import Caffeine.listener.Economy;
 import Caffeine.listener.GamblingListener;
 import Caffeine.listener.Text;
+import Caffeine.listener.Xp;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
@@ -16,6 +17,7 @@ public class MessageHandler {
     Command commandExecutor = new Command();
     Economy economy = new Economy();
     Text text = new Text();
+    Xp xp = new Xp();
     static GamblingListener gambling = new GamblingListener();
 
     public void handle(MessageReceivedEvent event) {
@@ -30,6 +32,8 @@ public class MessageHandler {
         Message message = event.getMessage();
 
         String command = message.getContentRaw().split(" ")[0].toLowerCase();
+
+        xp.add_xp(author.getId(), guild.getId());
 
         if (command.equals(Bot.prefix + "test")) {
             System.out.println("test");
