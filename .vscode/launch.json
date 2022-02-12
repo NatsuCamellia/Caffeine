@@ -5,7 +5,7 @@
             "type": "java",
             "name": "Launch Bot",
             "request": "launch",
-            "mainClass": "Caffeine.Core.Bot",
+            "mainClass": "",
             "projectName": "Caffeine"
         },
         {
