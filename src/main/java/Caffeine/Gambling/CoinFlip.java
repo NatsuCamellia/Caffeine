@@ -1,5 +1,7 @@
 package Caffeine.gambling;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import Caffeine.util.JsonUtil;
@@ -12,6 +14,7 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 
 public class CoinFlip extends Gambling {
     
+    public static Map<User, Gambling> map = new HashMap<User, Gambling>();
     public static final String UP = "正面";
     public static final String DOWN = "反面";
     static int COLOR = 0x0b8a00;
@@ -93,6 +96,7 @@ public class CoinFlip extends Gambling {
                 }
                 builder.addField("結果", "你輸了", true);
             }
+            CoinFlip.map.remove(user);
             builder.addField("金錢", String.format("%s >> %s", balance, json.getBalance()), true);
             channel.sendMessageEmbeds(builder.build()).queue();
         }
