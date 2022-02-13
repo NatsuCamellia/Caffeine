@@ -66,16 +66,18 @@ public class MessageHandler {
                 economy.daily(channel, author);
                 return;
             }
-        }
-        
-        if (message.getContentRaw().contains("機率")) {
-            text.chance(channel, author, message);
-            return;
-        }
-
-        if (message.getContentRaw().contains("是否")) {
-            text.yes_no(channel, author, message);
-            return;
+            
+        } else {
+            
+            if (message.getContentRaw().contains("機率")) {
+                text.chance(channel, author, message);
+                return;
+            }
+            
+            if (message.getContentRaw().contains("是否")) {
+                text.yes_no(channel, author, message);
+                return;
+            }
         }
     }
 
