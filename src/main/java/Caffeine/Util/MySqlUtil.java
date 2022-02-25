@@ -5,7 +5,7 @@ import java.sql.*;
 import Caffeine.data.Userdata;
 
 public class MySqlUtil {
-    static final String JDBC_DRIVER = System.getenv("JDBC_DRIVER");
+    static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     static final String DB_URL = System.getenv("DB_URL");
     static final String DB_USER = System.getenv("DB_USER");
     static final String DB_PASS = System.getenv("DB_PASS");
