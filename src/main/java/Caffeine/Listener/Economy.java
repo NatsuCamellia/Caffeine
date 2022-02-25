@@ -2,14 +2,16 @@ package Caffeine.listener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import Caffeine.data.Userdata;
 import Caffeine.util.EmbedUtil;
-import Caffeine.util.JsonUtil;
+import Caffeine.util.MySqlUtil;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
 public class Economy {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu MM dd");
+    MySqlUtil mySqlUtil = new MySqlUtil();
 
     public void daily(TextChannel channel, User author) {
 
@@ -17,27 +19,28 @@ public class Economy {
             EmbedUtil.sendMessageEmbed(channel, ":red_envelope: 每日補給", ":white_check_mark: 今日已領取", author);
         } else {
             EmbedUtil.sendMessageEmbed(channel, ":red_envelope: 每日補給", "補給獎勵\n:moneybag: +100", author);
-            JsonUtil json = new JsonUtil(author.getId());
-            json.setBalance(json.getBalance() + 100);
+
+            Userdata userdata = mySqlUtil.getUserdata(author.getId());
+            userdata.setBalance(userdata.getBalance() + 100);
             
             String today = LocalDate.now().format(formatter);
-            json.setLastSign(today);
-            json.flush();
+            userdata.setLast_signed(today);
+            mySqlUtil.updateUserdata(userdata);
         }
 
     }
 
     private Boolean signed(User user) {
 
-        JsonUtil json = new JsonUtil(user.getId());
+        Userdata userdata = mySqlUtil.getUserdata(user.getId());
         String today = LocalDate.now().format(formatter);
 
         try {
-            String last = json.getLastSign();
+            String last = userdata.getLast_signed();
             return today.equals(last);
         } catch (NullPointerException exception) { // 未曾簽到過
-            json.setLastSign(today);
-            json.flush();
+            userdata.setLast_signed(today);
+            mySqlUtil.updateUserdata(userdata);
             return false;
         }
 

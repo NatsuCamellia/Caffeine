@@ -4,8 +4,9 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 
+import Caffeine.data.Userdata;
 import Caffeine.util.EmbedUtil;
-import Caffeine.util.JsonUtil;
+import Caffeine.util.MySqlUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -34,8 +35,9 @@ public class Command {
         String avatar = member.getUser().getAvatarUrl() == null ? member.getUser().getDefaultAvatarUrl() : member.getUser().getAvatarUrl();
         String created = OffsetDateTime.ofInstant(member.getUser().getTimeCreated().toInstant(), ZoneId.of("UTC+8")).format(formatter) + "\n(UTC+8)";
         String joined = OffsetDateTime.ofInstant(member.getTimeJoined().toInstant(), ZoneId.of("UTC+8")).format(formatter) + "\n(UTC+8)";
-        JsonUtil json = new JsonUtil(member.getId());
-        Long balance = json.getBalance();
+        MySqlUtil mySqlUtil = new MySqlUtil();
+        Userdata userdata = mySqlUtil.getUserdata(member.getId());
+        Integer balance = userdata.getBalance();
         Iterator<Role> roleIterator = member.getRoles().iterator();
         String role = "";
         while (roleIterator.hasNext()) role += roleIterator.next().getAsMention();
