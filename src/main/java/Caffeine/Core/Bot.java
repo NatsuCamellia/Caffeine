@@ -20,7 +20,7 @@ public class Bot {
 
         JDABuilder builder = JDABuilder.createDefault(TOKEN);
 
-        builder.setActivity(Activity.playing("最新金錢功能開發中!"));
+        builder.setActivity(Activity.playing("用二氯甲烷萃取咖啡因"));
 
         builder.addEventListeners(new Listener());
 
