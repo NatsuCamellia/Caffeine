@@ -12,7 +12,6 @@ public class JsonUtil {
     JSONObject object;
     String user_id;
     
-    Map<String, Long> xp;
     Map<String, String> economy;
     
     @SuppressWarnings("unchecked")
@@ -28,37 +27,13 @@ public class JsonUtil {
             object = new JSONObject();
         }
 
-        xp = (Map<String, Long>)object.get("xp");
         economy = (Map<String, String>)object.get("economy");
-
-        if (xp == null) {
-            xp = new HashMap<String, Long>();
-            object.put("xp", xp);
-        }
 
         if (economy == null) {
             economy = new HashMap<String, String>();
             object.put("economy", economy);
         }
     
-    }
-
-    public Long getAccountXp() {
-        Long output = xp.get("account");
-        return output == null ? 0L : output;
-    }
-
-    public void setAccoundXp(Long value) {
-        xp.put("account", value);
-    }
-    
-    public Long getGuildXp(String guild_id) {
-        Long output = xp.get(guild_id);
-        return output == null ? 0L : output;
-    }
-
-    public void setGuildXp(String guild_id, Long value) {
-        xp.put(guild_id, value);
     }
 
     public String getLastSign() {
