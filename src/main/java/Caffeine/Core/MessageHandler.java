@@ -78,7 +78,7 @@ public class MessageHandler {
     }
 
     public boolean isCommand(Message message) {
-        return message.getContentRaw().charAt(0) == '%';
+        return message.getContentRaw().startsWith(Bot.prefix);
     }
 
     public void printLog(MessageReceivedEvent event) {
