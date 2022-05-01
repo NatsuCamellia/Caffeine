@@ -8,9 +8,9 @@ public class Bot {
 
     public static String prefix = "c.";
 
-    public static void main(String[] args) throws LoginException, InterruptedException {
+    public static void main(String[] args) throws LoginException {
 
-        String TOKEN = null;
+        String TOKEN;
 
         if (args.length < 1) {
             TOKEN = System.getenv("TOKEN");
@@ -20,7 +20,7 @@ public class Bot {
 
         JDABuilder builder = JDABuilder.createDefault(TOKEN);
 
-        builder.setActivity(Activity.playing("用二氯甲烷萃取咖啡因"));
+        builder.setActivity(Activity.playing(prefix + "help"));
 
         builder.addEventListeners(new Listener());
 
