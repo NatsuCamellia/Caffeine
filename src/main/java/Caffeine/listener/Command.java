@@ -23,7 +23,7 @@ public class Command {
         Member member;
 
         try {
-            member = message.getMentionedMembers().get(0);
+            member = message.getMentions().getMembers().get(0);
         } catch (IndexOutOfBoundsException e) {
             member = message.getMember();
         }

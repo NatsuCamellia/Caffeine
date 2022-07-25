@@ -25,7 +25,7 @@ public class MessageHandler {
         printLog(event);
         
         Guild guild = event.getGuild();
-        TextChannel channel = event.getTextChannel();
+        TextChannel channel = event.getChannel().asTextChannel();
         User author = event.getAuthor();
         Message message = event.getMessage();
         
@@ -86,7 +86,7 @@ public class MessageHandler {
         if (event.isFromType(ChannelType.PRIVATE)) {
             System.out.printf("[PM] %s: %s\n", event.getAuthor().getName(), event.getMessage().getContentDisplay());
         } else {
-            System.out.printf("[%s] [%s] %s: %s\n", event.getGuild().getName(), event.getTextChannel().getName(),
+            System.out.printf("[%s] [%s] %s: %s\n", event.getGuild().getName(), event.getChannel().asTextChannel().getName(),
                     event.getMember().getEffectiveName(), event.getMessage().getContentDisplay());
         }
     }

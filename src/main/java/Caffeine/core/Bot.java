@@ -3,6 +3,7 @@ import javax.security.auth.login.LoginException;
 
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 
 public class Bot {
 
@@ -19,6 +20,8 @@ public class Bot {
         }
 
         JDABuilder builder = JDABuilder.createDefault(TOKEN);
+
+        builder.enableIntents(GatewayIntent.MESSAGE_CONTENT);
 
         builder.setActivity(Activity.playing(prefix + "help"));
 
