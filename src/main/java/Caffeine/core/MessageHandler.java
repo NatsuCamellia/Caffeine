@@ -1,8 +1,6 @@
 package Caffeine.core;
 
 import Caffeine.listener.Command;
-import Caffeine.listener.Economy;
-import Caffeine.listener.GamblingListener;
 import Caffeine.listener.Text;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
@@ -14,9 +12,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 public class MessageHandler {
 
     Command commandExecutor = new Command();
-    Economy economy = new Economy();
     Text text = new Text();
-    static GamblingListener gambling = new GamblingListener();
 
     public void handle(MessageReceivedEvent event) {
         
@@ -50,17 +46,6 @@ public class MessageHandler {
 
             if (command.equals(Bot.prefix + "button")) {
                 commandExecutor.button(channel);
-                return;
-            }
-            
-            if (command.equals(Bot.prefix + "coinflip")) {
-                gambling.coinflip(channel, author, message);
-                return;
-            }
-            
-            if (command.equals(Bot.prefix + "daily")) {
-                economy.daily(channel, author);
-                return;
             }
             
         } else {
@@ -72,7 +57,6 @@ public class MessageHandler {
             
             if (message.getContentRaw().contains("是否")) {
                 text.yes_no(channel, author, message);
-                return;
             }
         }
     }

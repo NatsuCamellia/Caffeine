@@ -1,11 +1,8 @@
 package Caffeine.core;
 
-import Caffeine.listener.GamblingListener;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 
 public class ButtonHandler {
-
-    GamblingListener gambling = MessageHandler.gambling;
 
     public void handle(ButtonInteractionEvent event) {
         
@@ -18,11 +15,6 @@ public class ButtonHandler {
         
         if (id.equals("success")) {
             event.editMessage("Success").queue();
-            return;
-        }
-
-        if (id.startsWith("coinflip")) {
-            gambling.handleButton(event);
         }
     }
 }

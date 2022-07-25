@@ -4,9 +4,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 
-import Caffeine.data.Userdata;
 import Caffeine.util.EmbedUtil;
-import Caffeine.util.MySqlUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -35,9 +33,6 @@ public class Command {
         String avatar = member.getUser().getAvatarUrl() == null ? member.getUser().getDefaultAvatarUrl() : member.getUser().getAvatarUrl();
         String created = OffsetDateTime.ofInstant(member.getUser().getTimeCreated().toInstant(), ZoneId.of("UTC+8")).format(formatter) + "\n(UTC+8)";
         String joined = OffsetDateTime.ofInstant(member.getTimeJoined().toInstant(), ZoneId.of("UTC+8")).format(formatter) + "\n(UTC+8)";
-        MySqlUtil mySqlUtil = new MySqlUtil();
-        Userdata userdata = mySqlUtil.getUserdata(member.getId());
-        Integer balance = userdata.getBalance();
         Iterator<Role> roleIterator = member.getRoles().iterator();
         String role = "";
         while (roleIterator.hasNext()) role += roleIterator.next().getAsMention();
@@ -53,7 +48,6 @@ public class Command {
         builder.addField("伺服器暱稱", nickname, true);
         builder.addField("帳號創建時間", created, true);
         builder.addField("加入伺服器時間", joined, true);
-        builder.addField("金錢", String.valueOf(balance), true);
         builder.addField("身分組", role, true);
 
         channel.sendMessageEmbeds(builder.build()).queue();
