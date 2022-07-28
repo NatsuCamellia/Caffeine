@@ -2,6 +2,8 @@ package Caffeine.core;
 
 import Caffeine.listener.Command;
 import Caffeine.listener.Text;
+import Caffeine.music.MusicCommand;
+import Caffeine.test.ManagerTest;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
@@ -12,7 +14,9 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 public class MessageHandler {
 
     Command commandExecutor = new Command();
+    ManagerTest test = new ManagerTest();
     Text text = new Text();
+    MusicCommand music = new MusicCommand();
 
     public void handle(MessageReceivedEvent event) {
         
@@ -30,7 +34,7 @@ public class MessageHandler {
             String command = message.getContentRaw().split(" ")[0].toLowerCase();
             
             if (command.equals(Bot.prefix + "test")) {
-                System.out.println("test");
+                test.handle(event);
                 return;
             }
             
@@ -46,6 +50,21 @@ public class MessageHandler {
 
             if (command.equals(Bot.prefix + "button")) {
                 commandExecutor.button(channel);
+                return;
+            }
+
+            if (command.equals(Bot.prefix + "play")) {
+                music.play(event);
+                return;
+            }
+
+            if (command.equals(Bot.prefix + "skip")) {
+                music.skip(guild);
+                return;
+            }
+
+            if (command.equals(Bot.prefix + "leave")) {
+                music.leave(guild);
             }
             
         } else {
