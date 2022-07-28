@@ -1,5 +1,6 @@
 package Caffeine.core;
 
+import Caffeine.inquiry.InquiryCommand;
 import Caffeine.listener.Command;
 import Caffeine.listener.Text;
 import Caffeine.music.MusicCommand;
@@ -17,6 +18,7 @@ public class MessageHandler {
     ManagerTest test = new ManagerTest();
     Text text = new Text();
     MusicCommand music = new MusicCommand();
+    InquiryCommand inquiry = new InquiryCommand();
 
     public void handle(MessageReceivedEvent event) {
         
@@ -41,6 +43,10 @@ public class MessageHandler {
             if (command.equals(Bot.prefix + "user")) {
                 commandExecutor.user(guild, channel, author, message);
                 return;
+            }
+
+            if (command.equals(Bot.prefix + "guild")) {
+                inquiry.guild(guild, channel, author);
             }
             
             if (command.equals(Bot.prefix + "help")) {
