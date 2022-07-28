@@ -6,52 +6,11 @@ import java.util.Iterator;
 
 import Caffeine.util.EmbedUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 
 public class Command {
-
-    public void user(Guild guild, TextChannel channel, User author, Message message) {
-        
-        Member member;
-
-        try {
-            member = message.getMentions().getMembers().get(0);
-        } catch (IndexOutOfBoundsException e) {
-            member = message.getMember();
-        }
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
-
-        String account = member.getUser().getAsTag();
-        String nickname = member.getEffectiveName();
-        String avatar = member.getUser().getAvatarUrl() == null ? member.getUser().getDefaultAvatarUrl() : member.getUser().getAvatarUrl();
-        String created = OffsetDateTime.ofInstant(member.getUser().getTimeCreated().toInstant(), ZoneId.of("UTC+8")).format(formatter) + "\n(UTC+8)";
-        String joined = OffsetDateTime.ofInstant(member.getTimeJoined().toInstant(), ZoneId.of("UTC+8")).format(formatter) + "\n(UTC+8)";
-        Iterator<Role> roleIterator = member.getRoles().iterator();
-        String role = "";
-        while (roleIterator.hasNext()) role += roleIterator.next().getAsMention();
-
-        String authorAvatar = author.getAvatarUrl() == null ? author.getDefaultAvatarUrl() : author.getAvatarUrl();
-
-        EmbedBuilder builder = new EmbedBuilder();
-        builder.setColor(EmbedUtil.BLUE);
-        builder.setAuthor(account);
-        builder.setThumbnail(avatar);
-        builder.setFooter("查詢者：" + author.getAsTag(), authorAvatar);
-        builder.addField("帳號名稱", account, true);
-        builder.addField("伺服器暱稱", nickname, true);
-        builder.addField("帳號創建時間", created, true);
-        builder.addField("加入伺服器時間", joined, true);
-        builder.addField("身分組", role, true);
-
-        channel.sendMessageEmbeds(builder.build()).queue();
-    }
 
     public void help(TextChannel channel, User author) {
         
