@@ -33,44 +33,17 @@ public class MessageHandler {
         
         if (isCommand(message)) {
             
-            String command = message.getContentRaw().split(" ")[0].toLowerCase();
-            
-            if (command.equals(Bot.prefix + "test")) {
-                test.handle(event);
-                return;
-            }
-            
-            if (command.equals(Bot.prefix + "user")) {
-                commandExecutor.user(guild, channel, author, message);
-                return;
-            }
+            String command = message.getContentRaw().split(" ")[0].toLowerCase().substring(Bot.prefix.length());
 
-            if (command.equals(Bot.prefix + "guild")) {
-                inquiry.guild(guild, channel, author);
-            }
-            
-            if (command.equals(Bot.prefix + "help")) {
-                commandExecutor.help(channel, author);
-                return;
-            }
-
-            if (command.equals(Bot.prefix + "button")) {
-                commandExecutor.button(channel);
-                return;
-            }
-
-            if (command.equals(Bot.prefix + "play")) {
-                music.play(event);
-                return;
-            }
-
-            if (command.equals(Bot.prefix + "skip")) {
-                music.skip(guild);
-                return;
-            }
-
-            if (command.equals(Bot.prefix + "leave")) {
-                music.leave(guild);
+            switch (command) {
+                case "test" -> test.handle(event);
+                case "user" -> commandExecutor.user(guild, channel, author, message);
+                case "guild" -> inquiry.guild(guild, channel, author);
+                case "help" -> commandExecutor.help(channel, author);
+                case "button" -> commandExecutor.button(channel);
+                case "play" -> music.play(event);
+                case "skip" -> music.skip(guild);
+                case "leave" -> music.leave(guild);
             }
             
         } else {
