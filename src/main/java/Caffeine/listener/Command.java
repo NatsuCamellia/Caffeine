@@ -1,8 +1,4 @@
 package Caffeine.listener;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Iterator;
 
 import Caffeine.util.EmbedUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
