@@ -42,8 +42,10 @@ public class MessageHandler {
                 case "help" -> commandExecutor.help(channel, author);
                 case "button" -> commandExecutor.button(channel);
                 case "play" -> music.play(event);
-                case "skip" -> music.skip(guild);
+                case "skip" -> music.skip(guild, channel);
+                case "queue" -> music.queue(guild, channel);
                 case "leave" -> music.leave(guild);
+                case "clear" -> commandExecutor.clear(event);
             }
             
         } else {

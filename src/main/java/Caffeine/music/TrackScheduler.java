@@ -8,6 +8,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
@@ -24,21 +25,31 @@ public class TrackScheduler extends AudioEventAdapter {
         this.channel = channel;
     }
 
-    public void queue(AudioTrack track) {
-        if(!this.audioPlayer.startTrack(track, true)) {
-            if (this.queue.offer(track)) {
-                sendMessageEmbed("已加入待播清單", track.getInfo().title);
-            }
-        }
+    public void queueTrack(AudioTrack track) {
+        if (!this.audioPlayer.startTrack(track, true)) this.queue.offer(track);
+    }
+
+    public void queueList(List<AudioTrack> list) {
+        list.stream().filter(track -> !this.audioPlayer.startTrack(track, true))
+                .forEach(this.queue::offer);
     }
 
     public void nextTrack() {
         this.audioPlayer.startTrack(this.queue.poll(), false);
     }
 
+    public BlockingQueue<AudioTrack> getQueue() {
+        return this.queue;
+    }
+
+    public AudioPlayer getAudioPlayer() {
+        return audioPlayer;
+    }
+
     @Override
     public void onTrackStart(AudioPlayer player, AudioTrack track) {
-        sendMessageEmbed("正在播放", track.getInfo().title);
+        sendMessageEmbed("正在播放", getTrackString(track));
+        getTrackString(track);
     }
 
     @Override
@@ -58,6 +69,18 @@ public class TrackScheduler extends AudioEventAdapter {
 
     public void setTextChannel(TextChannel channel) {
         this.channel = channel;
+    }
+
+    public static String getTrackString(AudioTrack track) {
+        String title = track.getInfo().title;
+        String uri = track.getInfo().uri;
+        long sec = track.getInfo().length / 1000;
+        String duration = String.format("%d:%02d", sec / 60, sec % 60);
+        return String.format("[%s](%s) | `%s`\n", title, uri, duration);
+    }
+
+    public int getQueueSize() {
+        return queue.size();
     }
 
 }

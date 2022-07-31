@@ -2,12 +2,13 @@ package Caffeine.inquiry;
 
 import Caffeine.util.EmbedUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.*;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Iterator;
+import java.util.Arrays;
 
 public class InquiryCommand {
 
@@ -40,10 +41,9 @@ public class InquiryCommand {
         String joined = OffsetDateTime.ofInstant(member.getTimeJoined().toInstant(), ZoneId.of("UTC+8")).format(formatter) + "\n(UTC+8)";
         builder.addField("加入伺服器時間", joined, true);
 
-        Iterator<Role> roleIterator = member.getRoles().iterator();
-        String role = "";
-        while (roleIterator.hasNext()) role += roleIterator.next().getAsMention();
-        builder.addField("身分組", role, true);
+        StringBuilder role = new StringBuilder();
+        member.getRoles().forEach(r -> role.append(r.getAsMention()));
+        builder.addField("身分組", role.toString(), true);
 
         channel.sendMessageEmbeds(builder.build()).queue();
     }
@@ -64,7 +64,17 @@ public class InquiryCommand {
         String memberCount = guild.getMemberCount() + "人";
         builder.addField("成員人數", memberCount, true);
 
+        long onlineCount = getOnlineCount(guild);
+        builder.addField("線上人數", onlineCount + "人", true);
+
         channel.sendMessageEmbeds(builder.build()).queue();
+    }
+
+    private long getOnlineCount(Guild guild) {
+        OnlineStatus[] onlineStatus = {OnlineStatus.ONLINE, OnlineStatus.DO_NOT_DISTURB, OnlineStatus.IDLE};
+        return guild.getMembers().stream()
+                .filter((m) -> Arrays.asList(onlineStatus).contains(m.getOnlineStatus()))
+                .count();
     }
 
     private EmbedBuilder getBuilder(User inquirer) {
