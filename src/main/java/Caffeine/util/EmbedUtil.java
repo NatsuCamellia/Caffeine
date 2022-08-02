@@ -8,6 +8,7 @@ public class EmbedUtil {
 
     public final static int BLUE = 0x5398ed;
     public final static int RED = 0xFF0000;
+    public final static int GREEN = 0x6EB504;
 
     public static void sendErrorUsageEmbed (TextChannel channel, User author, String command, String description) {
         EmbedBuilder builder = new EmbedBuilder();
