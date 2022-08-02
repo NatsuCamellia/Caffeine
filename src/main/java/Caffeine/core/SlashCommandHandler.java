@@ -16,16 +16,14 @@ public class SlashCommandHandler {
     Command command = new Command();
 
     public void handle(SlashCommandInteractionEvent event) {
-        User author = event.getUser();
-        Guild guild = event.getGuild();
 
         switch (event.getName()) {
-            case "user" -> event.replyEmbeds(inquiry.user(author, event.getOption("member").getAsMember())).queue();
-            case "guild" -> event.replyEmbeds(inquiry.guild(guild, author)).queue();
+            case "user" -> inquiry.user(event);
+            case "guild" -> inquiry.guild(event);
             case "play" -> music.play(event);
             case "skip" -> music.skip(event);
             case "queue" -> music.queue(event);
-            case "leave" -> music.leave(guild);
+            case "leave" -> music.leave(event);
             case "clear" -> command.clear(event);
         }
     }
@@ -33,16 +31,16 @@ public class SlashCommandHandler {
     public static void initCommands(Guild guild) {
         try {
             guild.updateCommands().addCommands(
-                    Commands.slash("user", "Inquiry user")
-                            .addOption(OptionType.MENTIONABLE, "member", "member", true),
-                    Commands.slash("guild", "Inquiry guild"),
-                    Commands.slash("play", "Play Music")
-                            .addOption(OptionType.STRING, "search", "search", true),
-                    Commands.slash("skip", "Skip music"),
-                    Commands.slash("queue", "Query the queue"),
-                    Commands.slash("leave", "Disconnect the bot"),
-                    Commands.slash("clear", "Clear the messages, OWNER ONLY")
-                            .addOption(OptionType.INTEGER, "rows", "The number of rows to clear", true)
+                    Commands.slash("user", "查詢使用者資料")
+                            .addOption(OptionType.MENTIONABLE, "member", "成員", true),
+                    Commands.slash("guild", "查詢伺服器資料"),
+                    Commands.slash("play", "播放音樂")
+                            .addOption(OptionType.STRING, "search", "搜尋或音樂網址", true),
+                    Commands.slash("skip", "跳過曲目"),
+                    Commands.slash("queue", "查詢播放清單"),
+                    Commands.slash("leave", "使機器人離開語音頻道"),
+                    Commands.slash("clear", "清除多條訊息，伺服器擁有者專用")
+                            .addOption(OptionType.INTEGER, "rows", "訊息清除的數量", true)
             ).complete();
         } catch (Exception e) {
             System.out.println("【Warning】【" + guild.getName() + "】沒有授予 applications.commands");

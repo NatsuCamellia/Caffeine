@@ -57,8 +57,9 @@ public class MusicCommand {
         PlayerManager.getINSTANCE().getQueue(event, guild, channel);
     }
 
-    public void leave(Guild guild) {
-        guild.getAudioManager().closeAudioConnection();
+    public void leave(SlashCommandInteractionEvent event) {
+        Guild guild = event.getGuild();
+        PlayerManager.getINSTANCE().leave(event, guild);
     }
 
 }
