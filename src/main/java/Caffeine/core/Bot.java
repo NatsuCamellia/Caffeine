@@ -25,7 +25,7 @@ public class Bot {
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_PRESENCES)
                 .enableCache(CacheFlag.VOICE_STATE, CacheFlag.ONLINE_STATUS)
                 .setMemberCachePolicy(MemberCachePolicy.ONLINE)
-                .setActivity(Activity.playing(prefix + "help"))
+                .setActivity(Activity.playing("/play"))
                 .addEventListeners(new Listener()).build();
     }
 }
