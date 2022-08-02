@@ -37,8 +37,6 @@ public class MessageHandler {
 
             switch (command) {
                 case "test" -> test.handle(event);
-                case "user" -> inquiry.user(channel, author, message);
-                case "guild" -> inquiry.guild(guild, channel, author);
                 case "help" -> commandExecutor.help(channel, author);
                 case "button" -> commandExecutor.button(channel);
                 case "play" -> music.play(event);

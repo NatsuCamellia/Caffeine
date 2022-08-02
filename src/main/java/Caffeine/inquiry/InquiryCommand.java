@@ -14,23 +14,15 @@ public class InquiryCommand {
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
 
-    public void user(TextChannel channel, User author, Message message) {
-
-        Member member;
-
-        try {
-            member = message.getMentions().getMembers().get(0);
-        } catch (IndexOutOfBoundsException e) {
-            member = message.getMember();
-        }
+    public MessageEmbed user(User author, Member member) {
 
         EmbedBuilder builder = this.getBuilder(author);
 
         String account = member.getUser().getAsTag();
         builder.addField("帳號名稱", account, true);
 
-        String avatar = member.getUser().getAvatarUrl() == null ? member.getUser().getDefaultAvatarUrl() : member.getUser().getAvatarUrl();
-        builder.setThumbnail(avatar);
+        String thumbnail = member.getUser().getAvatarUrl() == null ? member.getUser().getDefaultAvatarUrl() : member.getUser().getAvatarUrl();
+        builder.setThumbnail(thumbnail);
 
         String nickname = member.getEffectiveName();
         builder.addField("伺服器暱稱", nickname, true);
@@ -45,10 +37,10 @@ public class InquiryCommand {
         member.getRoles().forEach(r -> role.append(r.getAsMention()));
         builder.addField("身分組", role.toString(), true);
 
-        channel.sendMessageEmbeds(builder.build()).queue();
+        return builder.build();
     }
 
-    public void guild(Guild guild, TextChannel channel, User author) {
+    public MessageEmbed guild(Guild guild, User author) {
 
         EmbedBuilder builder = this.getBuilder(author);
 
@@ -67,7 +59,7 @@ public class InquiryCommand {
         long onlineCount = getOnlineCount(guild);
         builder.addField("線上人數", onlineCount + "人", true);
 
-        channel.sendMessageEmbeds(builder.build()).queue();
+        return builder.build();
     }
 
     private long getOnlineCount(Guild guild) {
