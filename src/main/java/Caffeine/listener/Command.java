@@ -3,8 +3,10 @@ package Caffeine.listener;
 import Caffeine.util.EmbedUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+
+import java.util.concurrent.TimeUnit;
 
 public class Command {
 
@@ -36,23 +38,21 @@ public class Command {
         channel.sendMessage("按鈕列表").setActionRow(primary, success, secondary, danger, link).queue();
     }
 
-    public void clear (MessageReceivedEvent event) {
+    public void clear (SlashCommandInteractionEvent event) {
         TextChannel channel = event.getChannel().asTextChannel();
         Member member = event.getMember();
-        Message message = event.getMessage();
-        int num = 1;
-        try {
-            num += Integer.parseInt(message.getContentRaw().split(" ")[1]);
-        } catch (IndexOutOfBoundsException e) {
+        int rows = event.getOption("rows").getAsInt();
+
+        if (rows < 2) {
+            event.reply("請輸入大於 1 的數字").queue(m -> m.deleteOriginal().queueAfter(3, TimeUnit.SECONDS));
+            return;
         }
 
         if (member.isOwner()) {
-            if (num == 1) {
-                message.delete().queue();
-            } else {
-                MessageHistory history = new MessageHistory(channel);
-                channel.deleteMessages(history.retrievePast(num).complete()).queue();
-            }
+            MessageHistory history = new MessageHistory(channel);
+            channel.deleteMessages(history.retrievePast(rows).complete()).queue();
         }
+
+        event.reply("Done").queue(m -> m.deleteOriginal().queueAfter(3, TimeUnit.SECONDS));
     }
 }

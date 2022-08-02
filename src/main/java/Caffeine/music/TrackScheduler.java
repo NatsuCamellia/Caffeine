@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.TimeUnit;
 
 public class TrackScheduler extends AudioEventAdapter {
 
@@ -48,8 +49,8 @@ public class TrackScheduler extends AudioEventAdapter {
 
     @Override
     public void onTrackStart(AudioPlayer player, AudioTrack track) {
-        sendMessageEmbed("正在播放", getTrackString(track));
-        getTrackString(track);
+        EmbedBuilder builder = getBuilder("正在播放", getTrackString(track));
+        channel.sendMessageEmbeds(builder.build()).queue(m -> m.delete().queueAfter(track.getDuration(), TimeUnit.MILLISECONDS));
     }
 
     @Override
@@ -59,12 +60,12 @@ public class TrackScheduler extends AudioEventAdapter {
         }
     }
 
-    private void sendMessageEmbed(String title, String message) {
+    private EmbedBuilder getBuilder(String title, String message) {
         EmbedBuilder builder = new EmbedBuilder();
         builder.setColor(EmbedUtil.BLUE);
         builder.setTitle(title);
         builder.setDescription(message);
-        channel.sendMessageEmbeds(builder.build()).queue();
+        return builder;
     }
 
     public void setTextChannel(TextChannel channel) {

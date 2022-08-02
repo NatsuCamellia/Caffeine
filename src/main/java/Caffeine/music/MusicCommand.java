@@ -2,16 +2,16 @@ package Caffeine.music;
 
 import Caffeine.util.EmbedUtil;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
 
 public class MusicCommand {
-    public void play(MessageReceivedEvent event) {
+    public void play(SlashCommandInteractionEvent event) {
 
         Guild guild = event.getGuild();
         TextChannel channel = event.getChannel().asTextChannel();
-        Message message = event.getMessage();
-        User author = event.getAuthor();
+        User author = event.getUser();
+        String trackURL = event.getOption("search").getAsString();
         Member member = event.getMember();
         Member jdaMember = guild.getSelfMember();
 
@@ -37,30 +37,24 @@ public class MusicCommand {
             return;
         }
 
-        String[] splits = message.getContentRaw().split("play ");
-
-        // Error: Not enough argument
-        if (splits.length < 2) {
-            EmbedUtil.sendErrorUsageEmbed(channel, author, "play <搜尋/連結>", "參數不足");
-            return;
-        }
-
-        String trackURL = splits[1];
-
         // Check: Not a URL
         if (!trackURL.startsWith("http")) {
             trackURL = "ytsearch: " + trackURL + " audio";
         }
 
-        PlayerManager.getINSTANCE().loadAndPlay(guild, channel, trackURL);
+        PlayerManager.getINSTANCE().loadAndPlay(event, guild, channel, trackURL);
     }
 
-    public void skip(Guild guild, TextChannel channel) {
-        PlayerManager.getINSTANCE().nextTrack(guild, channel);
+    public void skip(SlashCommandInteractionEvent event) {
+        Guild guild = event.getGuild();
+        TextChannel channel = event.getChannel().asTextChannel();
+        PlayerManager.getINSTANCE().nextTrack(event, guild, channel);
     }
 
-    public void queue(Guild guild, TextChannel channel) {
-        PlayerManager.getINSTANCE().getQueue(guild, channel);
+    public void queue(SlashCommandInteractionEvent event) {
+        Guild guild = event.getGuild();
+        TextChannel channel = event.getChannel().asTextChannel();
+        PlayerManager.getINSTANCE().getQueue(event, guild, channel);
     }
 
     public void leave(Guild guild) {

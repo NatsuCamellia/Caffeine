@@ -1,6 +1,5 @@
 package Caffeine.core;
 
-import Caffeine.inquiry.InquiryCommand;
 import Caffeine.listener.Command;
 import Caffeine.listener.Text;
 import Caffeine.music.MusicCommand;
@@ -18,7 +17,6 @@ public class MessageHandler {
     ManagerTest test = new ManagerTest();
     Text text = new Text();
     MusicCommand music = new MusicCommand();
-    InquiryCommand inquiry = new InquiryCommand();
 
     public void handle(MessageReceivedEvent event) {
         
@@ -39,11 +37,6 @@ public class MessageHandler {
                 case "test" -> test.handle(event);
                 case "help" -> commandExecutor.help(channel, author);
                 case "button" -> commandExecutor.button(channel);
-                case "play" -> music.play(event);
-                case "skip" -> music.skip(guild, channel);
-                case "queue" -> music.queue(guild, channel);
-                case "leave" -> music.leave(guild);
-                case "clear" -> commandExecutor.clear(event);
             }
             
         } else {
