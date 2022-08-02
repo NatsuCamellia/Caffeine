@@ -4,6 +4,7 @@ import Caffeine.util.EmbedUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
@@ -14,9 +15,11 @@ public class InquiryCommand {
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
 
-    public MessageEmbed user(User author, Member member) {
+    public void user(SlashCommandInteractionEvent event) {
 
-        EmbedBuilder builder = this.getBuilder(author);
+        Member member = event.getMember();
+
+        EmbedBuilder builder = this.getBuilder();
 
         String account = member.getUser().getAsTag();
         builder.addField("帳號名稱", account, true);
@@ -37,12 +40,14 @@ public class InquiryCommand {
         member.getRoles().forEach(r -> role.append(r.getAsMention()));
         builder.addField("身分組", role.toString(), true);
 
-        return builder.build();
+        event.replyEmbeds(builder.build()).queue();
     }
 
-    public MessageEmbed guild(Guild guild, User author) {
+    public void guild(SlashCommandInteractionEvent event) {
 
-        EmbedBuilder builder = this.getBuilder(author);
+        Guild guild = event.getGuild();
+
+        EmbedBuilder builder = this.getBuilder();
 
         String guildName = guild.getName();
         builder.addField("伺服器名稱", guildName, true);
@@ -59,7 +64,7 @@ public class InquiryCommand {
         long onlineCount = getOnlineCount(guild);
         builder.addField("線上人數", onlineCount + "人", true);
 
-        return builder.build();
+        event.replyEmbeds(builder.build()).queue();
     }
 
     private long getOnlineCount(Guild guild) {
@@ -69,14 +74,10 @@ public class InquiryCommand {
                 .count();
     }
 
-    private EmbedBuilder getBuilder(User inquirer) {
+    private EmbedBuilder getBuilder() {
         EmbedBuilder builder = new EmbedBuilder();
         builder.setColor(EmbedUtil.BLUE);
-
-        builder.setAuthor("資訊查詢");
-
-        String avatar = inquirer.getAvatarUrl() == null ? inquirer.getDefaultAvatarUrl() : inquirer.getAvatarUrl();
-        builder.setFooter("查詢者：" + inquirer.getAsTag(), avatar);
+        builder.setTitle("資訊查詢");
 
         return builder;
     }
