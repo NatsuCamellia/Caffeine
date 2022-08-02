@@ -62,7 +62,7 @@ public class TrackScheduler extends AudioEventAdapter {
 
     private EmbedBuilder getBuilder(String title, String message) {
         EmbedBuilder builder = new EmbedBuilder();
-        builder.setColor(EmbedUtil.BLUE);
+        builder.setColor(EmbedUtil.GREEN);
         builder.setTitle(title);
         builder.setDescription(message);
         return builder;
