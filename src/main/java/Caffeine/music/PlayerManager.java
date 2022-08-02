@@ -9,14 +9,17 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.AudioChannel;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class PlayerManager {
@@ -118,6 +121,16 @@ public class PlayerManager {
         replySlash(event, "播放清單", sb.toString());
     }
 
+    public void leave(SlashCommandInteractionEvent event, Guild guild) {
+        if (guild.getAudioManager().isConnected()) {
+            AudioChannel audioChannel = guild.getAudioManager().getConnectedChannel();
+            event.getGuild().getAudioManager().closeAudioConnection();
+            replySlash(event, "離開成功", "已離開" + audioChannel.getName(), 5);
+        } else {
+            replySlash(event, "離開失敗", "我不在語音頻道內，還是你想我離開伺服器？", 5);
+        }
+    }
+
     public static PlayerManager getINSTANCE() {
 
         if (INSTANCE == null) {
@@ -127,11 +140,19 @@ public class PlayerManager {
         return INSTANCE;
     }
 
-    private void replySlash(SlashCommandInteractionEvent event, String title, String message) {
+    private void replySlash(SlashCommandInteractionEvent event, String title, String message, @Nullable Integer timeout) {
         EmbedBuilder builder = new EmbedBuilder();
-        builder.setColor(EmbedUtil.BLUE);
+        builder.setColor(EmbedUtil.GREEN);
         builder.setTitle(title);
         builder.setDescription(message);
-        event.replyEmbeds(builder.build()).queue();
+        if (timeout == null) {
+            event.replyEmbeds(builder.build()).queue();
+        } else {
+            event.replyEmbeds(builder.build()).queue(m -> m.deleteOriginal().queueAfter(timeout, TimeUnit.SECONDS));
+        }
+    }
+
+    private void replySlash(SlashCommandInteractionEvent event, String title, String message) {
+        replySlash(event, title, message, null);
     }
 }
