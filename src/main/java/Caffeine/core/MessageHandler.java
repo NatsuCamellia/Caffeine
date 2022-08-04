@@ -3,7 +3,6 @@ package Caffeine.core;
 import Caffeine.listener.Command;
 import Caffeine.listener.Text;
 import Caffeine.music.MusicCommand;
-import Caffeine.test.ManagerTest;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
@@ -14,7 +13,6 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 public class MessageHandler {
 
     Command commandExecutor = new Command();
-    ManagerTest test = new ManagerTest();
     Text text = new Text();
     MusicCommand music = new MusicCommand();
 
@@ -34,7 +32,6 @@ public class MessageHandler {
             String command = message.getContentRaw().split(" ")[0].toLowerCase().substring(Bot.prefix.length());
 
             switch (command) {
-                case "test" -> test.handle(event);
                 case "help" -> commandExecutor.help(channel, author);
                 case "button" -> commandExecutor.button(channel);
             }
