@@ -17,7 +17,7 @@ public class InquiryCommand {
 
     public void user(SlashCommandInteractionEvent event) {
 
-        Member member = event.getMember();
+        Member member = event.getOption("member").getAsMember();
 
         EmbedBuilder builder = this.getBuilder();
 
