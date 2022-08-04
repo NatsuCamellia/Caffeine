@@ -4,7 +4,6 @@ import Caffeine.inquiry.InquiryCommand;
 import Caffeine.listener.Command;
 import Caffeine.music.MusicCommand;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
