@@ -105,6 +105,12 @@ public class PlayerManager {
     public void getQueue(SlashCommandInteractionEvent event, Guild guild, TextChannel channel) {
         TrackScheduler scheduler = getMusicManager(guild, channel).scheduler;
         BlockingQueue<AudioTrack> queue = scheduler.getQueue();
+
+        if (scheduler.getAudioPlayer().getPlayingTrack() == null) {
+            replySlash(event, "播放清單", "播放清單為空");
+            return;
+        }
+
         StringBuilder sb = new StringBuilder();
 
         AudioTrack np = scheduler.getAudioPlayer().getPlayingTrack();
