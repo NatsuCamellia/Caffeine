@@ -59,7 +59,14 @@ public class MusicCommand {
 
     public void leave(SlashCommandInteractionEvent event) {
         Guild guild = event.getGuild();
-        PlayerManager.getINSTANCE().leave(event, guild);
+        TextChannel channel = event.getChannel().asTextChannel();
+        PlayerManager.getINSTANCE().leave(event, guild, channel);
+    }
+
+    public void clear(SlashCommandInteractionEvent event) {
+        Guild guild = event.getGuild();
+        TextChannel channel = event.getChannel().asTextChannel();
+        PlayerManager.getINSTANCE().clear(event, guild, channel);
     }
 
 }

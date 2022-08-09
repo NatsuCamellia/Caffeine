@@ -23,7 +23,8 @@ public class SlashCommandHandler {
             case "skip" -> music.skip(event);
             case "queue" -> music.queue(event);
             case "leave" -> music.leave(event);
-            case "clear" -> command.clear(event);
+            case "clear" -> music.clear(event);
+            case "delete" -> command.clear(event);
         }
     }
 
@@ -38,8 +39,9 @@ public class SlashCommandHandler {
                     Commands.slash("skip", "跳過曲目"),
                     Commands.slash("queue", "查詢播放清單"),
                     Commands.slash("leave", "使機器人離開語音頻道"),
-                    Commands.slash("clear", "清除多條訊息，伺服器擁有者專用")
-                            .addOption(OptionType.INTEGER, "rows", "訊息清除的數量", true)
+                    Commands.slash("delete", "清除多條訊息，伺服器擁有者專用")
+                            .addOption(OptionType.INTEGER, "rows", "訊息清除的數量", true),
+                    Commands.slash("clear", "清空播放清單")
             ).complete();
         } catch (Exception e) {
             System.out.println("【Warning】【" + guild.getName() + "】沒有授予 applications.commands");

@@ -127,14 +127,21 @@ public class PlayerManager {
         replySlash(event, "播放清單", sb.toString());
     }
 
-    public void leave(SlashCommandInteractionEvent event, Guild guild) {
+    public void leave(SlashCommandInteractionEvent event, Guild guild, TextChannel channel) {
         if (guild.getAudioManager().isConnected()) {
             AudioChannel audioChannel = guild.getAudioManager().getConnectedChannel();
             event.getGuild().getAudioManager().closeAudioConnection();
             replySlash(event, "離開成功", "已離開" + audioChannel.getName(), 5);
+            getMusicManager(guild, channel).scheduler.clear();
         } else {
             replySlash(event, "離開失敗", "我不在語音頻道內，還是你想我離開伺服器？", 5);
         }
+    }
+
+    public void clear(SlashCommandInteractionEvent event, Guild guild, TextChannel channel) {
+        TrackScheduler scheduler = getMusicManager(guild, channel).scheduler;
+        scheduler.clear();
+        replySlash(event, "清空完成", "已將播放清單清空");
     }
 
     public static PlayerManager getINSTANCE() {
