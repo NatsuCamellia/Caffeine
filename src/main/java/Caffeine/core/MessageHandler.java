@@ -1,10 +1,7 @@
 package Caffeine.core;
 
-import Caffeine.listener.Command;
 import Caffeine.listener.Text;
-import Caffeine.music.MusicCommand;
 import net.dv8tion.jda.api.entities.ChannelType;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -12,9 +9,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class MessageHandler {
 
-    Command commandExecutor = new Command();
     Text text = new Text();
-    MusicCommand music = new MusicCommand();
 
     public void handle(MessageReceivedEvent event) {
         
@@ -22,35 +17,18 @@ public class MessageHandler {
 
         printLog(event);
         
-        Guild guild = event.getGuild();
         TextChannel channel = event.getChannel().asTextChannel();
         User author = event.getAuthor();
         Message message = event.getMessage();
-        
-        if (isCommand(message)) {
-            
-            String command = message.getContentRaw().split(" ")[0].toLowerCase().substring(Bot.prefix.length());
 
-            switch (command) {
-                case "help" -> commandExecutor.help(channel, author);
-                case "button" -> commandExecutor.button(channel);
-            }
-            
-        } else {
-            
-            if (message.getContentRaw().contains("機率")) {
-                text.chance(channel, author, message);
-                return;
-            }
-            
-            if (message.getContentRaw().contains("是否")) {
-                text.yes_no(channel, author, message);
-            }
+        if (message.getContentRaw().contains("機率")) {
+            text.chance(channel, author, message);
+            return;
         }
-    }
 
-    public boolean isCommand(Message message) {
-        return message.getContentRaw().startsWith(Bot.prefix);
+        if (message.getContentRaw().contains("是否")) {
+            text.yes_no(channel, author, message);
+        }
     }
 
     public void printLog(MessageReceivedEvent event) {
