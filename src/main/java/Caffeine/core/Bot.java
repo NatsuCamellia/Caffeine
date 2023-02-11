@@ -9,8 +9,6 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 public class Bot {
 
-    public static String prefix = "c.";
-
     public static void main(String[] args) throws LoginException {
 
         String TOKEN;
