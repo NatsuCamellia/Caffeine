@@ -40,7 +40,7 @@ public class SlashCommandHandler {
                     Commands.slash("probability", "占卜一件事的機率")
                             .addOption(OptionType.STRING, "option", "欲占卜之事", true),
 
-                    Commands.slash("trueorfalse", "占卜一件事的是否為真")
+                    Commands.slash("trueorfalse", "占卜一件事是否為真")
                             .addOption(OptionType.STRING, "option", "欲占卜之事", true)
             ).complete();
         } catch (Exception e) {
