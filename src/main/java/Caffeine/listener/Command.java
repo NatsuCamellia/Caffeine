@@ -19,10 +19,8 @@ public class Command {
             return;
         }
 
-        if (member.isOwner()) {
-            MessageHistory history = new MessageHistory(channel);
-            channel.deleteMessages(history.retrievePast(rows).complete()).queue();
-        }
+        MessageHistory history = new MessageHistory(channel);
+        channel.deleteMessages(history.retrievePast(rows).complete()).queue();
 
         event.reply("Done").queue(m -> m.deleteOriginal().queueAfter(3, TimeUnit.SECONDS));
     }

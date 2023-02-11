@@ -2,8 +2,10 @@ package Caffeine.core;
 
 import Caffeine.inquiry.InquiryCommand;
 import Caffeine.listener.Command;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 
@@ -27,8 +29,9 @@ public class SlashCommandHandler {
                     Commands.slash("user", "查詢使用者資料")
                             .addOption(OptionType.MENTIONABLE, "member", "成員", true),
                     Commands.slash("guild", "查詢伺服器資料"),
-                    Commands.slash("delete", "清除多條訊息，伺服器擁有者專用")
+                    Commands.slash("delete", "清除多條訊息")
                             .addOption(OptionType.INTEGER, "rows", "訊息清除的數量", true)
+                            .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR))
             ).complete();
         } catch (Exception e) {
             System.out.println("【Warning】【" + guild.getName() + "】沒有授予 applications.commands");
