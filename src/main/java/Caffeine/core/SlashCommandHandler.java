@@ -14,7 +14,7 @@ public class SlashCommandHandler {
 
     InquiryCommand inquiry = new InquiryCommand();
     Command command = new Command();
-    RiotCommand riotCommand = new RiotCommand(System.getenv("RIOT_API_KEY"));
+    RiotCommand riotCommand = new RiotCommand(Bot.RIOT_API_KEY);
 
     public void handle(SlashCommandInteractionEvent event) {
         switch (event.getName()) {

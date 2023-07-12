@@ -7,6 +7,8 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 public class Bot {
 
+    public static final String RIOT_API_KEY = System.getenv("RIOT_API_KEY");
+
     public static void main(String[] args) {
 
         String TOKEN;
@@ -16,6 +18,7 @@ public class Bot {
         } else {
             TOKEN = args[0];
         }
+
 
         JDABuilder.createDefault(TOKEN)
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_PRESENCES)
