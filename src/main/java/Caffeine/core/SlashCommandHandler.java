@@ -2,6 +2,7 @@ package Caffeine.core;
 
 import Caffeine.inquiry.InquiryCommand;
 import Caffeine.listener.Command;
+import Caffeine.riotapi.RiotCommand;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -13,15 +14,18 @@ public class SlashCommandHandler {
 
     InquiryCommand inquiry = new InquiryCommand();
     Command command = new Command();
+    RiotCommand riotCommand = new RiotCommand(System.getenv("RIOT_API_KEY"));
 
     public void handle(SlashCommandInteractionEvent event) {
-
         switch (event.getName()) {
             case "user" -> inquiry.user(event);
             case "guild" -> inquiry.guild(event);
             case "delete" -> command.clear(event);
             case "probability" -> command.probability(event);
             case "trueorfalse" -> command.trueOrFalse(event);
+            case "button" -> Command.button(event);
+            case "summoner" -> riotCommand.getSummonerInfo(event);
+            case "mastery" -> riotCommand.getMastery(event);
         }
     }
 
@@ -41,7 +45,13 @@ public class SlashCommandHandler {
                             .addOption(OptionType.STRING, "option", "欲占卜之事", true),
 
                     Commands.slash("trueorfalse", "占卜一件事是否為真")
-                            .addOption(OptionType.STRING, "option", "欲占卜之事", true)
+                            .addOption(OptionType.STRING, "option", "欲占卜之事", true),
+
+                    Commands.slash("summoner", "查詢召喚師資訊")
+                            .addOption(OptionType.STRING, "summoner_name", "召喚師名稱", true),
+
+                    Commands.slash("mastery", "查詢召喚師專精")
+                            .addOption(OptionType.STRING, "summoner_name", "召喚師名稱", true)
             ).complete();
         } catch (Exception e) {
             e.printStackTrace();
