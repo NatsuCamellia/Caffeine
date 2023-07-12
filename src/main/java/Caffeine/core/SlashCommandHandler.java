@@ -23,7 +23,6 @@ public class SlashCommandHandler {
             case "delete" -> command.clear(event);
             case "probability" -> command.probability(event);
             case "trueorfalse" -> command.trueOrFalse(event);
-            case "button" -> Command.button(event);
             case "summoner" -> riotCommand.getSummonerInfo(event);
             case "mastery" -> riotCommand.getMastery(event);
         }
