@@ -1,18 +1,22 @@
-package Caffeine.core;
+package net.natsucamellia.Caffeine.core;
 
-import Caffeine.inquiry.InquiryCommand;
-import Caffeine.listener.Command;
+import net.natsucamellia.Caffeine.inquiry.InquiryCommand;
+import net.natsucamellia.Caffeine.listener.Command;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SlashCommandHandler {
 
-    InquiryCommand inquiry = new InquiryCommand();
-    Command command = new Command();
+    private static final Logger logger = LoggerFactory.getLogger(SlashCommandHandler.class);
+
+    private final InquiryCommand inquiry = new InquiryCommand();
+    private final Command command = new Command();
 
     public void handle(SlashCommandInteractionEvent event) {
         switch (event.getName()) {
@@ -43,8 +47,7 @@ public class SlashCommandHandler {
                             .addOption(OptionType.STRING, "option", "欲占卜之事", true)
             ).complete();
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("【Warning】【" + guild.getName() + "】沒有授予 applications.commands");
+            logger.error("伺服器 {} 沒有授予 applications.commands", guild.getName(), e);
         }
     }
 }

@@ -1,6 +1,6 @@
-package Caffeine.inquiry;
+package net.natsucamellia.Caffeine.inquiry;
 
-import Caffeine.util.EmbedUtil;
+import net.natsucamellia.Caffeine.util.EmbedUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.*;

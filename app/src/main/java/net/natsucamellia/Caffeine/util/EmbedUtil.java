@@ -1,4 +1,4 @@
-package Caffeine.util;
+package net.natsucamellia.Caffeine.util;
 
 public class EmbedUtil {
 

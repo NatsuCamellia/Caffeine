@@ -1,11 +1,8 @@
-package Caffeine.listener;
+package net.natsucamellia.Caffeine.listener;
 
-import Caffeine.util.EmbedUtil;
+import net.natsucamellia.Caffeine.util.EmbedUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageHistory;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
@@ -17,7 +14,6 @@ public class Command {
 
     public void clear (SlashCommandInteractionEvent event) {
         TextChannel channel = event.getChannel().asTextChannel();
-        Member member = event.getMember();
         int rows = event.getOption("rows").getAsInt();
 
         if (rows < 2) {

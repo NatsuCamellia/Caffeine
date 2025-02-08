@@ -1,4 +1,4 @@
-package Caffeine.core;
+package net.natsucamellia.Caffeine.core;
 
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 
