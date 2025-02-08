@@ -34,5 +34,5 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = "net.natsucamellia.Caffeine.core.Bot"
+    mainClass = "net.natsucamellia.caffeine.core.Bot"
 }
